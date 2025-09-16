@@ -1,0 +1,30 @@
+<html>
+  <head>
+    <title>Home - Verdant Shift</title>
+  </head>
+  <body>
+    Hello <%= username %>
+    <br>
+    <br>
+    <button onclick="logout()">Log Out</button>
+    <br>
+    <br>
+    <button onclick="deleteAccount()">Delete Account</button>
+    <div id="extras">
+    <br>
+    <!-- Coming soon! -->
+    <%- adminbutton %>
+    </div>
+  </body>
+  <script>
+    function logout() {
+      window.location = "/logout"
+    }
+
+    function deleteAccount() {
+      window.location = "/deleteaccount"
+    }
+
+    <%- adminfunction %>
+  </script>
+</html>
