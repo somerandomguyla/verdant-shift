@@ -236,11 +236,13 @@
         removeOptions(levelSelect);
         if (doMain) {
         removeOptions(stageSelect)
+          let counter = 1
         campaignResult[0].forEach(optionText => {
           const option = document.createElement("option");
           option.textContent = optionText[1].name;
-        option.value = option.textContent.toLowerCase()
+        option.value = String(counter)
           stageSelect.appendChild(option);
+          counter++
         });
         }
         Object.entries(campaignResult[0][stageSelect.selectedIndex][1]).forEach(([key, value]) => {

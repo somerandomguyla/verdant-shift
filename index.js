@@ -9,7 +9,6 @@ const fs = require("fs");
 //game logic package
 const gameLogic = require("./gamelogic")
 
-//prevent XSS attacks by cleansing input & output.
 const validator = require("validator")
 const zod = require("zod")
 const DOMPurify = require("dompurify") //probably not required
@@ -18,6 +17,7 @@ const DOMPurify = require("dompurify") //probably not required
 const { Client } = require("@replit/object-storage");
 const path = require("path");
 const { error } = require("console");
+const { EventEmitterAsyncResource } = require("events");
 const client = new Client();
 
 const app = express();
@@ -165,6 +165,211 @@ async function getAccount(req, res, user) {
     }
   } else {
     return JSON.parse(textValue);
+  }
+}
+
+function statsHandler(heroid, selectedStat, level) {
+  if (["defense", "base_attack", "hp", "skill_attack", "critChance"].includes(selectedStat) && Number.isInteger(Number(level)) && Number(level) >= 1 && Number(level) <= 100 && typeof Number(heroid) === "number" && characterNames[heroid]) {
+    if (["base_attack", "skill_attack"].includes(selectedStat)) {
+    return gameLogic.calculateStats(characterNames[heroid][selectedStat].base_dmg, gameLogic.statCapMultiplier.attack, level)
+    } else {
+      return gameLogic.calculateStats(characterNames[heroid]["base_stats"][selectedStat], gameLogic.statCapMultiplier[selectedStat], level)
+    } 
+  } else {
+    return false
+  }
+}
+
+async function giveCoins(id, coins) {
+  let userData = await getFile("account-" + id + ".json")
+  if (!userData) return console.warn("ERROR: failed to assign coins to " + id)
+  userData = JSON.parse(userData)
+  userData.coins = userData.coins + coins
+  const { ok, error } = await client.uploadFromText('account-' + id + '.json', JSON.stringify(userData));
+  if (!ok) {
+      return console.warn("ERROR: failed to assign coins: " + error)
+  }
+  console.log(`Successfully assigned ${coins} coins to ${id}. User now has ${userData.coins} coins.`)
+}
+
+async function progressCampaign(id) {
+  let userData = await getFile("account-" + id + ".json")
+  if (!userData) return console.warn("ERROR: failed to progress campaign for " + id)
+  userData = JSON.parse(userData)
+  if (userData.campaignStageLevel === 7) {
+    if (userData.campaignStage === 4) {
+      console.log(id + " reached the last campaign level. Congrats!")
+      return true
+    } else {
+      userData.campaignStage++
+      userData.campaignStageLevel = 1
+    }
+  } else {
+    userData.campaignStageLevel++
+  }
+  console.log(userData.campaignStage + " " + userData.campaignStageLevel)
+  const { ok, error } = await client.uploadFromText('account-' + id +'.json', JSON.stringify(userData));
+  if (!ok) {
+      console.log("failed to progress " + id + " to stage " + userData.campaignStage + " level " + userData.campaignStageLevel)
+      return false
+  }
+  console.log("successfully progressed " + id + " to stage " + userData.campaignStage + " level " + userData.campaignStageLevel)
+  return true
+}
+
+const activeGames = []
+class campaignInstance {
+  constructor(userid, stage, level, heroes) {
+    this.user = userid
+    this.campaignInfo = {stage: stage, level: level, stageName: campaignNames[stage].name, levelName: campaignNames[stage][level]}
+    let enemies = []
+    campaignLevels[stage][level].enemies.forEach(enemy => {
+      let stats = {}
+      for (const [stat, value] of Object.entries(campaignLevels.default_stats)) {
+        stats[stat] = value * campaignLevels.difficulty_multipliers[enemy.difficulty]
+      }
+      enemies.push({stats: stats, id: enemy.id, alive: true, skillCD: 0})
+    })
+    this.enemies = enemies
+    let gameHeroes = []
+    heroes.forEach(hero => {
+      let statsBegin = characterNames[hero.id].base_stats
+      statsBegin.base_attack = characterNames[hero.id].base_attack.base_dmg
+      statsBegin.skill_attack = characterNames[hero.id].skill_attack.base_dmg
+      let stats = {}
+      for (const [stat, value] of Object.entries(statsBegin)) {
+        if (stat == "skill_attack") {
+          stats[stat] = statsHandler(hero.id, stat, hero.skill_level)
+        } else {
+        stats[stat] = statsHandler(hero.id, stat, hero.level)
+        }
+      }
+      gameHeroes.push({id: hero.id, stats: stats, alive: true, skillCD: 0})
+    })
+    this.heroes = gameHeroes
+    this.instanceID = this.generateCampaignInstanceID(userid, stage, level)
+    this.coinReward = 0
+  }
+
+  generateCampaignInstanceID(userId, campaign, level) {
+    const timestamp = Date.now().toString(36);
+    const random = Math.random().toString(36).slice(2, 8);
+    return `${userId}-C${campaign}-L${level}-${timestamp}-${random}`;
+  }
+
+  manageAttack(hero, target, isSkill) {
+    if (this.heroes[hero].alive && this.enemies[target].alive) {
+      if (isSkill) {
+        if (this.heroes[hero].skillCD === 0) {
+          const damage = gameLogic.finalDamage(this.heroes[hero].stats.skill_attack, this.enemies[target].stats.defense, this.heroes[hero].stats.critChance, 0.2)
+          const trueDamage = Math.floor(damage[0])
+          this.enemies[target].stats.hp = this.enemies[target].stats.hp - trueDamage
+          let hasDied = false
+          if (this.enemies[target].stats.hp <= 0) {
+            this.enemies[target].alive = false;
+            hasDied = true
+          }
+          this.heroes[hero].skillCD === 3
+          this.reduceHeroSkillCD()
+          const newCoins = trueDamage * 5
+          this.coinReward = this.coinReward + newCoins
+          return {success: true, damage: trueDamage, isCrit: damage[1], rawDamage: damage[0], isDead: hasDied}
+        } else {
+          return {success: false, error: `This hero is on skill cooldown. Please try again in ${this.heroes[hero].skillCD - 1} turns.`}
+        }
+      } else {
+        //base attack. Slightly less randomness in damage.
+        const damage = gameLogic.finalDamage(this.heroes[hero].stats.base_attack, this.enemies[target].stats.defense, this.heroes[hero].stats.critChance, 0.15)
+        const trueDamage = Math.floor(damage[0])
+        this.enemies[target].stats.hp = this.enemies[target].stats.hp - trueDamage
+        let hasDied = false
+        if (this.enemies[target].stats.hp <= 0) {
+          this.enemies[target].alive = false;
+          hasDied = true
+        }
+        this.reduceHeroSkillCD()
+        const newCoins = trueDamage * 5
+        this.coinReward = this.coinReward + newCoins
+        return {success: true, damage: trueDamage, isCrit: damage[1], rawDamage: damage[0], isDead: hasDied}
+      }
+    } else {
+      return {success: false, error: "Invalid hero or target. They may be dead."}
+    }
+  }
+
+  manageEnemyAttack() {
+    let aliveEnemies = []
+    this.enemies.forEach(enemy => {
+      if (enemy.alive) {
+        aliveEnemies.push(enemy)
+      }
+    })
+    let aliveHeroes = []
+    this.heroes.forEach(hero => {
+      if (hero.alive) {
+        aliveHeroes.push(hero)
+      }
+    })
+    const aggressorAliveIndex = Math.floor(Math.random() * aliveEnemies.length)
+    const aggressor = aliveEnemies[aggressorAliveIndex]
+    const aggressorRealIndex = this.enemies.indexOf(aggressor)
+    if (aggressorRealIndex === -1) {
+      return {success: false, error: "Could not find real index of aggressor"}
+    }
+
+    const targetAliveIndex = Math.floor(Math.random() * aliveHeroes.length)
+    const target = aliveHeroes[targetAliveIndex]
+    const targetRealIndex = this.heroes.indexOf(target)
+    if (targetRealIndex === -1) {
+      return {success: false, error: "Could not find real index of target"}
+    }
+
+    let damage = 0
+    let isSkill = false
+    if (aggressor.skillCD === 0) {
+      //auto skill attack
+      isSkill = true
+      damage = gameLogic.finalDamage(this.enemies[aggressorRealIndex].stats.skill_attack, this.heroes[targetRealIndex].stats.defense, this.enemies[aggressorRealIndex].stats.critChance, 0.2)
+       this.enemies[aggressorRealIndex].skillCD = 3 //1 higher than normal because all enemies have CD reduced immediately after
+    } else {
+      //auto base attack
+      damage = gameLogic.finalDamage(this.enemies[aggressorRealIndex].stats.base_attack, this.heroes[targetRealIndex].stats.defense, this.enemies[aggressorRealIndex].stats.critChance, 0.15)
+    }
+    const trueDamage = Math.floor(damage[0])
+    this.heroes[targetRealIndex].stats.hp = this.heroes[targetRealIndex].stats.hp - trueDamage
+    let hasDied = false
+    if (this.heroes[targetRealIndex].stats.hp <= 0) {
+      this.heroes[targetRealIndex].alive = false;
+      hasDied = true
+    }
+    this.reduceEnemySkillCD()
+    return {success: true, damage: trueDamage, isCrit: damage[1], rawDamage: damage[0], aggressor: aggressorRealIndex, target: targetRealIndex, isDead: hasDied, isSkill: isSkill}
+  }
+
+  reduceEnemySkillCD() {
+    this.enemies.forEach(enemy => {
+      if (enemy.skillCD > 0) {
+        enemy.skillCD--
+      }
+    })
+  }
+
+  reduceHeroSkillCD() {
+    this.heroes.forEach(hero => {
+      if (hero.skillCD > 0) {
+        hero.skillCD--
+      }
+    })
+  }
+
+  checkForGameEnd() {
+    if (!this.enemies.some(enemy => enemy.alive)) {
+      return [true, true] //game over, won
+    } else if (!this.heroes.some(hero => hero.alive)) {
+      return [true, false] //game over, lost
+    } else {
+      return [false, false] //game not over
+    }
   }
 }
 
@@ -368,7 +573,7 @@ app.post('/summon', async (req, res) => {
   toUpload.coins = toUpload.coins + characterNames.duplicateCharacterCoins[characterNames[summon].rarity]
       totalCoins = totalCoins + characterNames.duplicateCharacterCoins[characterNames[summon].rarity]
     } else {
-    toUpload.characters.push({id: summon, level: 1, xp: 0, skill_level: 1, skill_xp: 0, stars: characterNames[summon].base_stars, name: characterNames[summon].name})
+    toUpload.characters.push({id: summon, level: 1, xp: 0, skill_level: 1, skill_xp: 0, stars: characterNames[summon].base_stars, name: characterNames[summon].name, stats: characterNames[summon].base_stats, attacks: {base: characterNames[summon].base_attack.base_dmg, skill: characterNames[summon].skill_attack.base_dmg}})
     }
   })
   toUpload.summonShards[shard] = toUpload.summonShards[shard] - amount
@@ -393,31 +598,177 @@ app.get("/statshandler/:heroid/:stat/:level", (req, res) => {
   const heroid = req.params.heroid
   const selectedStat = req.params.stat
   const level = req.params.level
-  //Random dump of checks to make sure the request is properly formed. Probably could be simpler
-  if (["defense", "base_attack", "hp", "skill_attack"].includes(selectedStat) && Number.isInteger(Number(level)) && Number(level) >= 1 && Number(level) <= 100 && typeof Number(heroid) === "number" && characterNames[heroid]) {
-    if (["base_attack", "skill_attack"].includes(selectedStat)) {
-    res.send(gameLogic.calculateStats(characterNames[heroid][selectedStat].base_dmg, gameLogic.statCapMultiplier.attack, level))
-    } else {
-      res.send(gameLogic.calculateStats(characterNames[heroid]["base_stats"][selectedStat], gameLogic.statCapMultiplier[selectedStat], level))
-    }
+  
+  let toSend = statsHandler(heroid, selectedStat, level, true)
+  
+  if(!toSend) {
+    res.status(400).send("This request is malformed.")
+  }
+
+  if (toSend.length == 2) {
+    res.send(`${toSend[0]} (${toSend[1]})`)
   } else {
-    res.statusCode(400).send("This request is malformed.")
+    res.send(toSend)
   }
 })
 
+app.get("/campaign/:stage/:level", async (req, res) => {
+  const user = getUserInfo(req)
+  const doRun = await runChecks(req, res, user)
+  if (!doRun) return;
+  const userData = await getAccount(req, res, user)
+  if (!userData) return;
+  const stage = req.params.stage;
+  const level = req.params.level;
+  if (stage && level && Number.isInteger(Number(stage)) && Number.isInteger(Number(level)) && campaignNames[stage][level]) {
+    if (userData.campaignStage > stage || (userData.campaignStage == stage && userData.campaignStageLevel >= level)) {
+    let enemies = []
+    campaignLevels[stage][level].enemies.forEach(enemy => {
+      enemy.name = campaignEnemies[enemy.id].name
+      enemies.push(enemy)
+    })
+    const toSend = {stage:{stage: campaignNames[stage].name, level: campaignNames[stage][level], num: level}, sentInfo: {enemies: enemies, characters: userData.characters}, maxCharacters: campaignLevels[stage][level].maxCharacters}
+    res.render("game/campaign.ejs", toSend)
+    } else {
+      res.render("errors/redirect.ejs", {errorMessage: "You haven't unlocked that level yet.", redirect: "/play/campaign"})
+    }
+  } else {
+    res.send("this request is invalid.")
+  }
+})
 
+  app.post('/startcampaign', async (req, res) => {
+    const user = getUserInfo(req)
+    const doRun = await runChecks(req, res, user)
+    if (!doRun) return //
+    const userData = await getAccount(req, res, user)
+    if (!userData) return;
+    const info = req.body
+    if (Number.isInteger(Number(info.stage)) && (info.stage > userData.campaignStage || (userData.campaignStage > info.stage || (userData.campaignStage == info.stage && userData.campaignStageLevel >= info.level)) && Number.isInteger(Number(info.level)))) {
+      let realHeroes = []
+      for (const hero of info.heroes) {
+        let eeee = hero
+        const heroIndex = userData.characters.findIndex(item => item.id === hero.id);
+        if (heroIndex === -1) {
+          realHeroes = false;
+          break
+        }
+        eeee.level = userData.characters[heroIndex].level
+        eeee.skill_level = userData.characters[heroIndex].skill_level
+        realHeroes.push(eeee)
+      }
+      if (!realHeroes) {res.status(400).send("You don't own one of your selected heroes.")}
+      if (activeGames.some(game => game.user === user.id)) {
+        res.status(400).send({gameStart: false, error: "You already have an active game."})
+      } else {
+    const data = new campaignInstance(user.id, info.stage, info.level, realHeroes)
+        let gameEnemies = campaignLevels[info.stage][info.level].enemies
+        data.enemies.forEach(enemy => {
+          gameEnemies[gameEnemies.findIndex(gameenemy => gameenemy.id === enemy.id)].stats = enemy.stats
+        })
+        let gameHeroes = []
+        for (let i = 0; i < realHeroes.length; i++) {
+          let hh = realHeroes[i];
+          hh.stats = data.heroes[data.heroes.findIndex(sHero => sHero.id === hh.id)].stats;
+          delete hh.attacks
+          if (!hh.stats) {
+            gameHeroes = false;
+            break;
+          }
+          gameHeroes.push(hh)
+        }
+        activeGames.push(data)
+        res.send({gameStart: true, realHeroes: gameHeroes, realEnemies: gameEnemies})
+      }
+    } else {
+      res.send("This request is invalid.")
+    }
+  })
+
+app.post('/campaignhandler', async (req, res) => {
+  const user = getUserInfo(req)
+  const doRun = await runChecks(req, res, user)
+  if (!doRun) return;
+  const userData = await getAccount(req, res, user)
+  if (!userData) return; //edge case, likely not possible
+  const info = req.body
+  if (activeGames.some(game => game.user === user.id)) {
+  if (info.type) {
+    const gameData = activeGames[activeGames.findIndex(game => game.user === user.id)]
+    if (info.type === "attack") {
+      //attack
+     const attackData = gameData.manageAttack(info.hero, info.target, info.isSkill)
+      if (!attackData.success) return res.send({success: false, error: attackData.error})
+
+      //check for game end
+      let gameOver = gameData.checkForGameEnd()
+
+      //enemy attack
+      if (!gameOver[0]) {
+      let responseData
+    responseData = gameData.manageEnemyAttack()
+      if  (!responseData.success) return res.send({success: false, error: responseData.error})
+
+      gameOver = gameData.checkForGameEnd()
+      if (gameOver[0]) {
+        responseData.gameOver = gameOver[0]
+        responseData.clientWin = gameOver[1]
+        responseData.coinReward = activeGames[activeGames.findIndex(game => game.user === user.id)].coinReward
+        activeGames.splice(activeGames.findIndex(game => game.user === user.id), 1)
+        giveCoins(user.id, coinReward)
+        res.send({success: true, attack: attackData, response: responseData})
+      } else {
+      res.send({success: true, attack: attackData, response: responseData})
+      }
+      } else {
+        let coinReward = activeGames[activeGames.findIndex(game => game.user === user.id)].coinReward
+        let progressed = false
+        if (gameData.campaignInfo.stage == userData.campaignStage && gameData.campaignInfo.level == userData.campaignStageLevel) {
+          coinReward = coinReward * 1.5
+          coinReward = Math.floor(coinReward)
+          progressed = progressCampaign(user.id)
+        }
+        activeGames.splice(activeGames.findIndex(game => game.user === user.id), 1)
+        giveCoins(user.id, coinReward)
+        res.send({success: true, attack: attackData, response: {success: false, gameOver: gameOver[0], clientWin: gameOver[1], coinReward: coinReward, progressed: progressed}})
+      }
+      
+    } else if (info.type === "forfeit") {
+      //forfeit handler
+      activeGames.splice(activeGames.findIndex(game => {game.user === user.id}), 1)
+      res.send({success: true, coins: gameData.coinReward})
+      giveCoins(user.id, gameData.coinReward)
+      
+    } else if (info.type === "recover") {
+      //data recovery, ie page closed
+      res.status(400).send("Recovery feature unavailable")
+      
+    } else {
+      res.status(400).send("Unknown interaction type")
+    }
+  } else {
+    res.status(400).send("Invalid request")
+  }
+  } else {
+    res.status(400).send("No active game found")
+  }
+})
 
 app.use((req, res, next) => {
   res.status(404).sendFile(__dirname + "/views/errors/404.html");
 });
-
+  
 let campaignNames;
 let summonPool;
 let characterNames;
+let campaignLevels;
+let campaignEnemies;
 
 app.listen(5000, async () => {
   console.log("Verdant Shift active");
   campaignNames = JSON.parse(await getFile("campaignNames.json"));
   summonPool = JSON.parse(await getFile("summonPool.json"));
   characterNames = JSON.parse(await getFile("character-names.json"))
+  campaignLevels = JSON.parse(await getFile("campaignlevels.json"))
+  campaignEnemies = JSON.parse(await getFile("campaignenemies.json"))
 });
