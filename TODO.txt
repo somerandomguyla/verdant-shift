@@ -1,0 +1,1 @@
+Remove ID check for admin look

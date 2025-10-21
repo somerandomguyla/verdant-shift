@@ -1,0 +1,75 @@
+<html>
+  <head>
+    <title>Admin User Lookup - Verdant Shift</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <h1>User Lookup</h1>
+    <input type="text" id="user-input" placeholder="User ID...">
+    <button onclick="lookup()">Look up</button>
+
+    <br>
+    <hr>
+    <br>
+
+    <img src="" id="user-image" alt="Unknown/Profile Picture">
+    <h3 id="username">Unknown</h3>
+    <small id="user-id">Unknown</small>
+    <br>
+    <small id="user-bio">Unknown</small><br>
+    <a href="" id="user-link">Replit page</a>
+
+    <br>
+    <hr>
+    <br>
+
+    <p id="user-level">Level: Not Selected</p>
+    <p id="user-campaign">Campaign Level: Not Selected</p>
+    <br>
+    <p>Raw Character Json:</p>
+    <p id="user-characterjson">Not Selected</p>
+    <br>
+    <p>Summon Shards Raw Json</p>
+    <p id="user-summonshards">Not Selected</p>
+  </body>
+  <script>
+    let username = document.getElementById("username")
+    let userId = document.getElementById("user-id")
+    let userBio = document.getElementById("user-bio")
+    let userLink = document.getElementById("user-link")
+    let userLevel = document.getElementById("user-level")
+    let userCampaign = document.getElementById("user-campaign")
+    let userCharacter = document.getElementById("user-characterjson")
+    let userShards = document.getElementById("user-summonshards")
+    let userImage = document.getElementById("user-image")
+
+    let errorOccurred = false
+try { const userInfo = <%- user %>;
+  } catch (error) {
+    errorOccurred = true
+    const urlParams = new URLSearchParams(window.location.search);
+    const param = urlParams.get('user');
+    if (param) {
+      window.alert("Error collecting user info. This probably means the user does not exist.")
+    }
+  } 
+  if (!errorOccurred) {
+        const userInfo = <%- user %>;
+    
+        username.innerHTML = userInfo.name;
+        userId.innerHTML = userInfo.id;
+        userBio.innerHTML = userInfo.bio;
+        userLink.href = userInfo.url;
+        userImage.src = userInfo.profileImage;
+        userLevel.innerHTML = "Level: " + userInfo.userLevel;
+        userCampaign.innerHTML = "Campaign Level: " + userInfo.campaignStage + "." + userInfo.campaignStageLevel;
+        userCharacter.innerHTML = JSON.stringify(userInfo.characters)
+        userShards.innerHTML = JSON.stringify(userInfo.summonShards)
+  }
+
+  function lookup() {
+    const userLookup = document.getElementById("user-input")
+  window.location = "/admin/checkaccount?user=" + userLookup.value
+  }
+  </script>
+</html>

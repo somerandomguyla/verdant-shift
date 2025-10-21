@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Redirecting...</title>
+  </head>
+  <body>
+    <div id="main" style="display: none;">
+      <h1>Redirecting...</h1>
+      <small>If this isn't working, click <a href="javascript:redirect()">here</a>.</small>
+    </div>
+  </body>
+  <script>
+    const message = "<%= errorMessage %>"
+    const redirectURL = "<%= redirect %>"
+
+    function redirect() {
+      window.location = redirectURL
+    }
+
+    window.alert(message)
+    document.getElementById("main").style.display = "block";
+    redirect()
+  </script>
+</html>

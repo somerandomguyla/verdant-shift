@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title>Confirm Delete Account | Celestial Ascent</title>
+  </head>
+  <body>
+    <h1>Confirm Account Deletion</h1>
+      <label for="DeleteConfirm">Are you sure you want to delete your account? Type your username to confirm.</label>
+      <input id="DeleteConfirm" type="text" name="username">
+      <button onclick="checkUser()">Delete My Account</button>
+  </body>
+  <script>
+    let textboxInput
+    const username = "<%= accountname %>"
+    function checkUser() {
+      textboxInput = document.getElementById("DeleteConfirm").value
+      if (textboxInput == username) {
+        window.location = "/deleteaccount-confirm"
+      } else {
+        window.alert("Username is not correct!")
+      }
+    }
+  </script>
+</html>

@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Viewing Hero <%= hero.name %> - Verdant Shift</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <center>
+      <h1><%= hero.name %></h1>
+      <p><%= rarities[hero.rarity] %> (<%= hero.base_stars %> Stars)</p>
+      <h3>Base Stats</h3>
+      <p>HP: <%= hero.base_stats.hp %></p>
+      <p>Defense: <%= hero.base_stats.defense %></p>
+      <p>Critical Chance: <%= Number((hero.base_stats.critChance * 100).toFixed(2)) %>%</p>
+      <h3>Base Attack: <%= hero.base_attack.name %></h3>
+      <p>Base Damage: <%= hero.base_attack.base_dmg %></p>
+      <p>Targets: <%= attacktypes[hero.base_attack.type] %></p>
+      <p>Hits: <%= hero.base_attack.hits %></p>
+      <h3>Skill Attack: <%= hero.skill_attack.name %></h3>
+      <p>Base Damage: <%= hero.skill_attack.base_dmg %></p>
+      <p>Targets: <%= attacktypes[hero.skill_attack.type] %></p>
+      <p>Hits: <%= hero.skill_attack.hits %></p>
+    </center>
+  </body>
+  <script>
+  </script>
+</html>

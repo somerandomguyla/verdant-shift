@@ -1,0 +1,79 @@
+<html>
+  <head>
+    <title>Verdant Shift</title>
+  <style>  
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    #centerdiv {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      font-family: "Lucida Console";
+      transform: translate(-50%, -50%);
+      opacity: 1;
+      transition: opacity .75s ease-out;
+    }
+
+    #centerdiv.hidden {
+      opacity: 0;
+    }
+
+    #centerButton {
+    border: 3px solid white;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    font-family: inherit;
+    padding: 10px;
+    font-size: 15;
+    opacity: 0;
+    transition: opacity .75s ease-out, background-color 1s ease, color 1s ease;
+    }
+
+    #centerButton.shown {
+    opacity: 1;
+    }
+
+    #centerButton:hover {
+    cursor: pointer;
+    color: black;
+    background-color: white;
+    }
+  </style>
+  </head>
+  <body>
+    <div id="centerdiv">
+      <h1 id="h1center">Useless Games</h1>
+      <center><button onclick="window.location = '/play/main'" id="centerButton">Play</button></center>
+    </div>
+    <script>
+      let h1 = document.getElementById("h1center")
+      let centerDiv = document.getElementById("centerdiv")
+      let centerButton = document.getElementById("centerButton")
+      const textObjects = ["For the Congressional App Challenge (MA District 3)", "Verdant Shift"]
+      let i = 0
+
+      function hide() {
+        centerDiv.classList.add("hidden")
+      }
+      function show() {
+      centerDiv.classList.remove("hidden")
+      }
+      function textChange() {
+        h1center.innerHTML = textObjects[i++]
+        show()
+      }
+      function showButton() {
+        centerButton.classList.add("shown")
+      }
+      setTimeout(hide, 2000)
+      setTimeout(textChange, 2750)
+      setTimeout(hide, 5500)
+      setTimeout(textChange, 6250)
+      setTimeout(showButton, 6750)
+    </script>
+  </body>
+</html>
