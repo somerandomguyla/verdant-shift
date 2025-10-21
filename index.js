@@ -185,7 +185,6 @@ async function giveCoins(id, coins) {
   if (!userData) return console.warn("ERROR: failed to assign coins to " + id)
   userData = JSON.parse(userData)
   userData.coins = userData.coins + coins
-  userData.name = "somerandomguyla"
   const { ok, error } = await client.uploadFromText('account-' + id + '.json', JSON.stringify(userData));
   if (!ok) {
       return console.warn("ERROR: failed to assign coins: " + error)
@@ -443,18 +442,19 @@ app.get("/", async (req, res) => {
   if (!doRun) {
     return; //
   }
-  if (user) {
+  const userData = JSON.parse(await getFile("account-" + user.id + ".json"))
+  if (!userData) return;
     if (await AccountExists(req, res, user)) {
-      if (user.name == "somerandomguyla") {
+      if (userData.name == "somerandomguyla") {
         res.render("home.ejs", {
-          username: user.name,
+          username: userData.name,
           adminbutton: "<button onclick='admin()' class='mini-button'>Admin Lookup</button>",
           adminfunction:
             "function admin() {window.location = '/admin/checkaccount'}",
         });
       } else {
         res.render("home.ejs", {
-          username: user.name,
+          username: userData.name,
           adminbutton: null,
           adminfunction: null,
         });
@@ -462,9 +462,6 @@ app.get("/", async (req, res) => {
     } else {
       res.render("main-noaccount.ejs", { user: user });
     }
-  } else {
-    res.redirect("/login");
-  }
 });
 
 app.get("/createaccount", async (req, res) => {
@@ -493,13 +490,14 @@ app.get("/login", async (req, res) => {
   }
 });
 
-app.get("/deleteaccount", (req, res) => {
+app.get("/deleteaccount", async (req, res) => {
   const user = getUserInfo(req);
-  if (!user) {
+  const doRun = await runChecks(req, res, user)
+  if (!doRun) return;
+  const userData = JSON.parse(await getFile("account-" + user.id + ".json"))
+  if (!userData) return res.send("Error. Try again later.")
     res.redirect("/login");
-  } else {
-    res.render("account-deleteconfirm.ejs", { accountname: user.name });
-  }
+    res.render("account-deleteconfirm.ejs", { accountname: userData.name });
 });
 
 app.get("/deleteaccount-confirm", (req, res) => {
@@ -523,10 +521,9 @@ app.get("/logout", (req, res) => {
 
 app.get("/admin/checkaccount", async (req, res) => {
   const user = getUserInfo(req);
+  const userData = JSON.parse(await getFile("account-" + user.id + ".json"))
   if (user) {
-    if (!user.name == "somerandomguyla") {
-      res.redirect("/");
-    } else {
+    if (userData.name == "somerandomguyla") {
       if (req.query) {
         const win = new URLSearchParams(req.query);
         const userSearch = win.get("user");
@@ -535,6 +532,8 @@ app.get("/admin/checkaccount", async (req, res) => {
       } else {
         res.render("account-lookup.ejs", { user: "unknown" });
       }
+    } else {
+      res.redirect("/")
     }
   } else {
     res.redirect("/");

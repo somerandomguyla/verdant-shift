@@ -83,7 +83,7 @@
       <div id="section-main">
         <center>
       <h1>Verdant Shift</h1>
-      <h5 id="coinDisplay">Loading...</h5>
+      <h5 class="coinDisplay">Loading...</h5>
       <button onclick="screenUpdate('campaign', 'section-campaign')" id="campaign">Campaign</button>
       <!--<br>
       <br>
@@ -141,6 +141,7 @@
         <button onclick="summonMenu('gray')" id="summon-grayShard">Gray Shard</button>  <button onclick="summonMenu('blue')" id="summon-blueShard">Blue Shard</button>  <button onclick="summonMenu('purple')" id="summon-purpleShard">Purple Shard</button>  <button onclick="summonMenu('gold')" id="summon-goldShard">Gold Shard</button>  <button onclick="summonMenu('verdant')" id="summon-verdantShard">Verdant Shard</button>
           <hr>
           <h2>Buy More</h2>
+          <h5 class="coinDisplay">Loading...</h5>
           <button onclick="openShop('gray')" class="mini-button">Gray Shard (15,000)</button>  <button onclick="openShop('blue')" class="mini-button">Blue Shard (75,000)</button>  <button onclick="openShop('purple')" class="mini-button">Purple Shard (150,000)</button>  <button onclick="openShop('gold')" class="mini-button">Gold Shard (250,000)</button>  <button onclick="openShop('verdant')" class="mini-button">Verdant Shard (500,000)</button>  
         </center>
       </div>
@@ -541,7 +542,9 @@ document.getElementById("summonDisplay").style.display = "block";
           updateLS()
           updateHeroes()
           updateSummon()
-          document.getElementById("coinDisplay").innerHTML = `You have ${menuResult.coins} coins.`
+          document.querySelectorAll(".coinDisplay").forEach(el => {
+            el.innerHTML = `You have ${menuResult.coins} coins.`;
+          });
             } catch (error) {
                 window.alert("Error fetching menu data. Some menu pages may not work. Reload or try again later.")
               console.error(error)
