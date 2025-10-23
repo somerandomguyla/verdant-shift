@@ -66,6 +66,11 @@
                 <h1 id ="goScreenWL">Error</h1>
                 <h4 id="goScreenDetails">(error) and received (error) coins.</h4>
                 <h5 id="goScreenFTB">This coin total includes first victory bonus, if applicable.</h5>
+                <div id="loreSection" style="border: 2px #1f2e1f solid; border-radius: 5px; padding: 10px; width: 70%;">
+                  <b><%- postGameInfo.main %> <a href="<%= postGameInfo.source %>" target="_blank" rel="noopener noreferrer">Source</a></b><br><br>
+                  <button onclick="window.open('<%= postGameInfo.learn_more %>', '_blank')" class="mini-button">Learn More</button>  <button onclick="window.open('<%= postGameInfo.help %>', '_blank')" class="mini-button">Help Prevent This</button><br><br>
+                  <small>These links lead to external websites. Use caution while viewing.</small>
+                </div><br>
                 <button onclick="window.location = '/play/main'">Main Menu</button>  <button onclick="location.reload()">Retry</button>  <button onclick="window.location = '/play/campaign'">Next Level</button>
               </center>
             </div>
@@ -344,6 +349,7 @@
               tcButtons.innerHTML = ""
               turnButtonsCreated = 0
               if (type === "hero") {
+                turnInfo.innerHTML = "It's your turn."
                 gameHeroes.forEach(hero => {
                   if (hero.alive) {
                   const tButton = document.createElement("button")

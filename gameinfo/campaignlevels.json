@@ -1,0 +1,37 @@
+{
+    "note": "level and difficulty are used to decide the stats of an enemy without having to give individual stats to each enemy. Level is currently unused, but it functions the same as character leveling.",
+    "difficulty_multipliers": [0.5, 0.75, 1, 1.25, 1.5, 2],
+    "default_stats": {
+        "base_attack": 80,
+        "skill_attack": 220,
+        "hp": 900,
+        "defense": 500,
+        "critChance": 0.025
+    },
+    "1": {
+        "1": {
+            "name": "Amazon Forest Logging",
+            "lore": {
+                "main": "Every year, thousands of square kilometers of rainforest in Brazil and surrounding countries are destroyed for many reasons, including cattle expansion and roads. Scientists fear this could end up reaching a &quot;tipping point,&quot; which could lead to desertification with a massive impact on the climate.",
+                "source": "https://www.carbonbrief.org/drying-of-amazon-could-be-early-warning-of-tipping-point-for-the-rainforest",
+                "source_aux": "https://www.science.org/doi/10.1126/sciadv.add9973",
+                "help": "https://www.nature.org/en-us/about-us/where-we-work/latin-america/brazil",
+                "learn_more": "https://en.wikipedia.org/wiki/Deforestation_of_the_Amazon_rainforest",
+                "learn_more_dangerous": true
+            },
+            "enemies": [{"id": "0", "difficulty": 0, "level": 1}],
+            "maxCharacters": 1
+        },
+    "2": {
+        "name": "The Pet Trade",
+        "lore": {
+            "main": "The illegal trade of pets throughout the Americas is fueled by its high benefit and relatively low risk, despite it being illegal in some way in nearly every country in the region. All around the world, there is a demand for exotic pets such as those found in the Amazon. Over 100,000 illegally trafficked wild animals have been reported, but the real number is likely much higher.",
+            "source": "https://www.ifaw.org/ca-en/resources/wildlife-crime-hispanic-america-report",
+            "help": "https://give-ca.ifaw.org/page/donate-ca",
+            "learn_more": "https://wwf.panda.org/discover/our_focus/wildlife_practice/problems/illegal_trade"
+        },
+        "enemies": [{"id": 1, "difficulty": 0, "level": 1}],
+        "maxCharacters": 1
+    }
+    }
+}

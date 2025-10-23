@@ -417,7 +417,6 @@ document.getElementById("heroDisplay").style.display = "none";
       heroBox.className = "hero-box";
 
       heroBox.innerHTML = `
-        <img src="${hero.image}" alt="${hero.name}" class="hero-img">
         <div class="hero-name">${hero.name}</div>
         <div class="hero-stars">${hero.stars} Star(s)</div>
         <div class="hero-level">Level ${hero.level}, Skill Level ${hero.skill_level}</div><br><button onclick="openLevelUpDisplay(${hero.id}, false)" class="mini-button">Upgrade Level</button>  <button onclick="openLevelUpDisplay(${hero.id}, true)" class="mini-button">Upgrade Skill Level</button>

@@ -689,7 +689,7 @@ app.get("/campaign/:stage/:level", async (req, res) => {
       enemy.name = campaignEnemies[enemy.id].name
       enemies.push(enemy)
     })
-    const toSend = {stage:{stage: campaignNames[stage].name, level: campaignNames[stage][level], num: level}, sentInfo: {enemies: enemies, characters: userData.characters}, maxCharacters: campaignLevels[stage][level].maxCharacters}
+    const toSend = {stage:{stage: campaignNames[stage].name, level: campaignNames[stage][level], num: level}, sentInfo: {enemies: enemies, characters: userData.characters}, maxCharacters: campaignLevels[stage][level].maxCharacters, postGameInfo: campaignLevels[stage][level].lore}
     res.render("game/campaign.ejs", toSend)
     } else {
       res.render("errors/redirect.ejs", {errorMessage: "You haven't unlocked that level yet.", redirect: "/play/campaign"})
@@ -859,6 +859,10 @@ app.post('/shophandler', async (req, res) => {
   }
 })
 
+app.get("/eee", (req, res) => {
+  res.render("errors/redirect.ejs", {errorMessage: "This information is coming soon!", redirect: "/play/main"})
+})
+
 app.use((req, res, next) => {
   res.status(404).sendFile(__dirname + "/views/errors/404.html");
 });
@@ -884,6 +888,15 @@ app.listen(5000, async () => {
   campaignNames = JSON.parse(await getFile("campaignNames.json"));
   summonPool = JSON.parse(await getFile("summonPool.json"));
   characterNames = JSON.parse(await getFile("character-names.json"))
-  campaignLevels = JSON.parse(await getFile("campaignlevels.json"))
-  campaignEnemies = JSON.parse(await getFile("campaignenemies.json"))
+
+  try {
+    const data = fs.readFileSync('./gameinfo/campaignlevels.json', 'utf8');
+    campaignLevels = JSON.parse(data);
+    const data2 = fs.readFileSync("./gameinfo/campaignenemies.json")
+    campaignEnemies = JSON.parse(data2)
+    console.log('Character names loaded');
+  } catch (err) {
+    console.error('Error reading character names:', err);
+    process.exit(1); // stop startup if it fails
+  }
 });
