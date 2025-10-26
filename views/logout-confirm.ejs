@@ -15,7 +15,6 @@
     function confirm(doInstantLogin) {
       const textInput = window.prompt("Enter your username (<%= username %>) to confirm.")
       if (!textInput) return;
-      window.alert(textInput)
       if (textInput.trim() !== username) return window.alert("You typed the wrong username.")
       if (doInstantLogin) {
         document.cookie = "instantLogin=<%= sessionID %>; secure;"
