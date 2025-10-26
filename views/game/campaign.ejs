@@ -1,0 +1,631 @@
+<html>
+  <head>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.jpg">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaigning in <%= stage.stage %> - <%= stage.level %> - Campaign on Verdant Shift</title>
+  </head>
+    <body>
+      <div id="mainmenu">
+      <button onclick="window.location = '/play/campaign'">Back</button>
+      <center>
+        <h1>Campaign</h1>
+        <h2><%= stage.stage %> #<%= stage.num %> - <%=stage.level %></h2>
+          <hr><h3>Enemies</h3>
+          <div id="enemyView" class="boxsection">
+            An error occurred.
+          </div><br><hr>
+          <h3>Selected Heroes (Max. <%= maxCharacters %>)</h3>
+          <div id="selectedChar" class="boxsection">
+            None selected
+          </div>
+          <h3>All Heroes</h5>
+          <div id="charSelect" class="boxsection">
+            An error occurred.
+          </div>
+          <br><hr>
+          <button onclick="play()">Go</button>
+          <hr><h4>Troubleshooting</h4>
+          <button onclick="forfeit()" class="mini-button">Attempt Auto-Forfeit</button><br><br>
+          <small>Auto forfeit is designed to forfeit any active games. This is usually required if you reload the page while in a game.</small>
+      </center>
+        </div>
+          <div id="game" style="display:none">
+            <center>
+              <div id="topSection" style="">
+              <h1>Campaign</h1>
+              <h3 id="turnInfo">It's your turn.</h3><hr>
+              <div id="turnChoices">
+                <h3 id="turnChoicesText">1. Choose a Hero</h3>
+                <div id="turnInfoText"></div>
+                <div id="turnChoicesButtons">
+                  
+                </div>
+              </div>
+                <hr>
+                <div id="forfeitSection"><button onclick="forfeit()">Forfeit</button><br>
+                <hr></div>
+              </div>
+              <div id="gameSection" style="">
+                <h3>Your Heroes</h3>
+              <div id="playerCharacters" class="characterSection" style="">
+              </div><hr>
+                <h3>Enemies</h3>
+              <div id="enemies" class="characterSection" style="">
+              </div>
+              </div>
+            </center>
+          </div>
+          <div id="loadingScreen" class="modal">
+            <div class="modal-content">
+              <center>
+                <h2>One moment please...</h2>
+                <img src="/static/loading.gif">
+              </center>
+            </div>
+          </div>
+          <div id="statDisplay" class="modal" style="display:none;">
+            <div class="modal-content">
+              <span id="close-statmodal" style="cursor:pointer; text-align: right;">&times;</span>
+              <center>
+                <div id="statmodal-content">
+                <h1>Error: Failed to display content</h1>
+                <p>Try again later or contact support.</p>
+                </div>
+              </center>
+          </div>
+          </div>
+          <div id="GOScreen" class="modal">
+            <div class="modal-content">
+              <center>
+                <h1 id ="goScreenWL">Error</h1>
+                <h4 id="goScreenDetails">(error) and received (error) coins.</h4>
+                <h5 id="goScreenFTB">This coin total includes first victory bonus, if applicable.</h5>
+                <div id="loreSection" style="border: 2px #1f2e1f solid; border-radius: 5px; padding: 10px; width: 70%;">
+                  <b><%- postGameInfo.main %> <a href="<%= postGameInfo.source %>" target="_blank" rel="noopener noreferrer">Source</a></b><br><br>
+                  <button onclick="window.open('<%= postGameInfo.learn_more %>', '_blank')" class="mini-button">Learn More</button>  <button onclick="window.open('<%= postGameInfo.help %>', '_blank')" class="mini-button">Help Prevent This</button><br><br>
+                  <small>These links lead to external websites. Use caution while viewing.</small>
+                </div><br>
+                <button onclick="window.location = '/play/main'">Main Menu</button>  <button onclick="location.reload()">Retry</button>  <button onclick="window.location = '/play/campaign'">Next Level</button>
+              </center>
+            </div>
+          </div>
+    </body>
+          <script>
+            const mainMenu = document.getElementById("mainmenu")
+            const game = document.getElementById("game")
+            const viewEnemies = document.getElementById("enemyView")
+            const selectCharacters = document.getElementById("charSelect")
+            const turnInfo = document.getElementById("turnInfo")
+            const turnChoicesDiv = document.getElementById("turnChoices")
+            const tcText = document.getElementById("turnChoicesText")
+            const tcButtons = document.getElementById("turnChoicesButtons")
+            const gameSection = document.getElementById("gameSection")
+            const playerCharacters = document.getElementById("playerCharacters")
+            const enemiesDiv = document.getElementById("enemies")
+            const turnInfoText = document.getElementById("turnInfoText")
+
+            const gameInfo = JSON.parse('<%- JSON.stringify(sentInfo) %>')
+            const selectedCharactersBox = document.getElementById("selectedChar")
+            let selectedCharacters = []
+            let unselectedCharacters = gameInfo.characters
+            let selected = 0
+            const maxSelect = JSON.parse('<%- JSON.stringify(maxCharacters) %>')
+            const loadingScreen = document.getElementById("loadingScreen")
+            const goScreen = document.getElementById("GOScreen")
+            const goScreenWinLoss = document.getElementById("goScreenWL")
+            const goScreenDetails = document.getElementById("goScreenDetails")
+            const goScreenFTB = document.getElementById("goScreenFTB")
+            const forfeitSection = document.getElementById("forfeitSection")
+            let gameHeroes = []
+            let gameEnemies = []
+
+            const statScreen = document.getElementById("statDisplay")
+            const statContent = document.getElementById("statmodal-content")
+
+            let latestAttack = {}
+
+            function updateLoad(show) {
+              if (show) {
+                loadingScreen.style.display = "block";
+              } else {
+                loadingScreen.style.display = "none";
+              }
+            }
+
+            document.getElementById("close-statmodal").onclick = function() {
+            statScreen.style.display = "none";
+                }
+
+            window.onclick = function(event) {
+              if (event.target == statScreen) {
+                statScreen.style.display = "none";
+              }
+            }
+            
+            function gameOverScreen() {
+              if (latestAttack.response.clientWin) {
+                goScreenWinLoss.innerHTML = "You Win!"
+                goScreenDetails.innerHTML = `You defeated all enemies and received ${latestAttack.response.coinReward} coins.`
+                goScreenFTB.style.display = "block"
+                if (!latestAttack.response.progressed) {
+                  window.alert("The server reported a failed progression in campaign. Please check manually and contact support if progression failed.")
+                }
+              } else {
+                goScreenWinLoss.innerHTML = "You Lost..."
+                goScreenDetails.innerHTML = `The enemies defeated all of your heroes. You received ${latestAttack.response.coinReward} coins.`
+                goScreenFTB.style.display = "none"
+              }
+              goScreen.style.display = "block"
+            }
+
+            function handleSkillCD() {
+              gameEnemies.forEach(enemy => {
+                if (enemy.skillCD > 0) {
+                  enemy.skillCD--
+                }
+              })
+              gameHeroes.forEach(hero => {
+                if (hero.skillCD > 0) {
+                  hero.skillCD--
+                }
+              })
+            }
+
+            function attackDetails(clientData, serverData) {
+              if (gameEnemies[clientData[1]].alive) {
+              turnInfoText.innerHTML = `Your hero ${gameHeroes[clientData[0]].name} attacked ${gameEnemies[clientData[1]].name} and dealt ${serverData.attack.damage} damage. ${gameEnemies[clientData[1]].name} has ${gameEnemies[clientData[1]].stats.hp} HP remaining.`
+              } else {
+                turnInfoText.innerHTML = `Your hero ${gameHeroes[clientData[0]].name} attacked ${gameEnemies[clientData[1]].name} and dealt ${serverData.attack.damage} damage. ${gameEnemies[clientData[1]].name} has been defeated!`
+              }
+              turnInfoText.appendChild(document.createElement("br"))
+              turnInfoText.appendChild(document.createElement("br"))
+              const confirmButton = document.createElement("button")
+              confirmButton.innerHTML = "Next"
+              let id
+              if (serverData.response.gameOver && serverData.response.clientWin) {
+                id = "attackDetails-3"
+              } else {
+              id = "attackDetails-1"
+              }
+              confirmButton.id = id
+              confirmButton.onclick = () => attackDetailHandler(id)
+              tcButtons.appendChild(confirmButton)
+            }
+
+            function attackDetailHandler(id) {
+              if (id === "attackDetails-1") {
+                if (latestAttack.response.isDead) {
+                  turnInfoText.innerHTML = `Enemy ${gameEnemies[latestAttack.response.aggressor].name} attacked ${gameHeroes[latestAttack.response.target].name} and dealt ${latestAttack.response.damage} damage. ${gameHeroes[latestAttack.response.target].name} has been defeated.`
+                } else {
+                turnInfoText.innerHTML = `Enemy ${gameEnemies[latestAttack.response.aggressor].name} attacked ${gameHeroes[latestAttack.response.target].name} and dealt ${latestAttack.response.damage} damage. ${gameHeroes[latestAttack.response.target].name} has ${gameHeroes[latestAttack.response.target].stats.hp} HP remaining.`
+                }
+                turnInfoText.appendChild(document.createElement("br"))
+                turnInfoText.appendChild(document.createElement("br"))
+                tcButtons.innerHTML = ""
+                const confirmButton = document.createElement("button")
+                confirmButton.innerHTML = "Finish"
+                const id = "attackDetails-2"
+                confirmButton.id = id
+                confirmButton.onclick = () => attackDetailHandler(id)
+                tcButtons.appendChild(confirmButton)
+              } else if (id === "attackDetails-2") {
+                if (latestAttack.response.gameOver) {
+                  turnInfoText.innerHTML = ""
+                  tcText.innerHTML = ""
+                  tcButtons.innerHTML = ""
+                  gameOverScreen()
+                } else {
+                turnInfoText.innerHTML = ""
+                tcText.innerHTML = "1. Choose a Hero"
+                populateTurnButtons("hero", "", "")
+                }
+              } else if (id === "attackDetails-3") {
+                turnInfoText.innerHTML = ""
+                tcText.innerHTML = ""
+                tcButtons.innerHTML = ""
+                gameOverScreen()
+              } else {
+                window.alert("An error occurred.")
+                console.log("Error: Invalid attackDetailHandler interaction type.")
+              }
+            }
+
+            function updateHealths(clientData, serverData) {
+              if (serverData.attack.isDead) {
+                gameEnemies[clientData[1]].stats.hp = 0
+                gameEnemies[clientData[1]].alive = false
+              } else {
+                gameEnemies[clientData[1]].stats.hp = gameEnemies[clientData[1]].stats.hp - serverData.attack.damage
+              }
+              if (clientData[2]) {
+                gameHeroes[clientData[0]].skillCD = 3
+              }
+              if (serverData.response.isDead) {
+                gameHeroes[clientData[0]].stats.hp = 0
+                gameHeroes[clientData[0]].alive = false
+              } else {
+                if (!serverData.response.gameOver) {
+                gameHeroes[clientData[0]].stats.hp = gameHeroes[clientData[0]].stats.hp - serverData.response.damage
+                }
+              }
+              if (serverData.response.isSkill) {
+                gameEnemies[clientData[1]].skillCD = 3
+              }
+              handleSkillCD()
+              populateGameHeroes()
+              populateGameEnemies()
+            }
+
+            async function attackHandler(turnData) {
+              updateLoad(true)
+              const campaignAttack = await fetch('/campaignhandler', {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                body: JSON.stringify({type: "attack", hero: turnData[0], target: turnData[1], isSkill: turnData[2]})
+               })
+              updateLoad(false)
+              if (!campaignAttack.ok) {
+                 window.alert("An error occurred with your attack.")
+                throw new Error(`Failed to attack.`)
+                console.log(campaignAttack)
+                return
+              }
+              const cdata = await campaignAttack.json()
+              console.log(cdata)
+              if (cdata.success) {
+              tcText.innerHTML = "1. Review Hero Attack"
+              turnInfo.innerHTML = "Review your attack details."
+              latestAttack = cdata
+              if (latestAttack.response.gameOver) {
+                forfeitSection.innerHTML = ""
+              }
+              updateHealths(turnData, cdata)
+              attackDetails(turnData, cdata)
+              } else {
+                window.alert(`Attack failed. Your game has been forfeited automatically and you received ${cdata.coinReward} coins as compensation.`)
+                await forfeit()
+                window.location = "/play/campaign"
+              }
+            }
+
+            //in order, hero, enemy, and base/skill. By default it will send a base attack.
+            let activeTurn = [-1, -1, false]
+            let turnPosition = 0
+            
+            function turnMenuHandler(id) {
+              let ee = id
+              ee = ee.split("-")
+              ee = ee[1]
+              ee = Number(ee)
+              if (turnPosition == 0) {
+                activeTurn[0] = ee
+                turnPosition++
+                tcText.innerHTML = "2. Select Target"
+                populateTurnButtons("target", "", "")
+              } else if (turnPosition == 1) {
+                activeTurn[1] = ee
+                turnPosition++
+                tcText.innerHTML = "3. Select Attack Type"
+                if (gameHeroes[activeTurn[0]].skillCD == 0) {
+                populateTurnButtons("skill", "Base Attack", "Skill Attack")
+                } else {
+                  populateTurnButtons("skill", "Base Attack", false)
+                }
+              } else if (turnPosition == 2) {
+                if (id == "tButtonSkill") {
+                  activeTurn[2] = true
+                } else {
+                  activeTurn[2] = false
+                }
+                tcText.innerHTML = "Please Wait..."
+                tcButtons.innerHTML = ""
+                turnInfo.innerHTML = "It's your opponents turn."
+                attackHandler(activeTurn)
+                activeTurn = [-1, -1, false]
+                turnPosition = 0
+              } else {
+                console.warn("An error occurred: Invalid turnPosition value.")
+                window.alert("An error occurred.")
+              }
+            }
+
+            async function forfeit() {
+              updateLoad(true)
+              const campaignForfeit = await fetch('/campaignhandler', {
+                  method: "POST",
+                  headers: {
+                    'Content-Type': 'application/json'
+                  },
+                body: JSON.stringify({type: "forfeit"})
+               })
+              updateLoad(false)
+              if (!campaignForfeit.ok) {
+                 window.alert("An error occurred while attempting to forfeit.")
+                throw new Error(`Failed to forfeit.`)
+                console.log(campaignForfeit)
+                return
+              }
+              const cdata = await campaignForfeit.json()
+              if (cdata.success) {
+                window.alert(`Successfully forfeited the game. You gained ${cdata.coins} coins.`)
+                location.reload()
+              }
+            }
+
+            function populateEnemies() {
+              viewEnemies.innerHTML = ""
+              gameInfo.enemies.forEach(enemy => {
+              const enemyBox = document.createElement("div");
+              enemyBox.className = "character-box";
+
+              enemyBox.innerHTML = `
+                <div class="character-name">${enemy.name}</div>
+                <div class="character-level">Difficulty: ${enemy.difficulty + 1}</div>
+                <div class="character-level">Level ${enemy.level}</div>
+              `;
+
+              viewEnemies.appendChild(enemyBox);
+              });
+            }
+
+            let turnButtonsCreated = 0
+
+            function populateTurnButtons(type, base_attack, skill_attack) {
+              tcButtons.innerHTML = ""
+              turnButtonsCreated = 0
+              if (type === "hero") {
+                turnInfo.innerHTML = "It's your turn."
+                gameHeroes.forEach(hero => {
+                  if (hero.alive) {
+                  const tButton = document.createElement("button")
+                  tButton.innerHTML = hero.name
+                  const id = "tButton-" + turnButtonsCreated
+                  tButton.id = id
+                  tButton.onclick = () => turnMenuHandler(id)
+                  tcButtons.appendChild(tButton)
+                  }
+                  turnButtonsCreated++
+                })
+              } else if (type === "target") {
+                gameEnemies.forEach(enemy => {
+                  if (enemy.alive) {
+                  const tButton = document.createElement("button")
+                  tButton.innerHTML = enemy.name
+                  const id = "tButton-" + turnButtonsCreated
+                  tButton.id = id
+                  tButton.onclick = () => turnMenuHandler(id)
+                  tcButtons.appendChild(tButton)
+                  }
+                  turnButtonsCreated++
+                })
+              } else {
+                const tButton = document.createElement("button")
+                tButton.innerHTML = base_attack
+                const id = "tButtonBase"
+                tButton.id = id
+                tButton.onclick = () => turnMenuHandler(id)
+                tcButtons.appendChild(tButton)
+                if (skill_attack) {
+                  const tButton2 = document.createElement("button")
+                  tButton2.innerHTML = skill_attack
+                  const id2 = "tButtonSkill"
+                  tButton2.id = id2
+                  tButton2.onclick = () => turnMenuHandler(id2)
+                  tcButtons.appendChild(tButton2)
+                }
+              }
+            }
+
+            function enemyInfo(id) {
+              let ee = id
+              ee = ee.split("-")
+              const info = gameEnemies[Number(ee[1])]
+              statContent.innerHTML = `
+              <h2>${info.name}: Stats</h2><h4>Remaining HP: ${info.stats.hp}<br>Defense: ${info.stats.defense}<br>Base Attack: ${info.stats.base_attack}<br>Skill Attack: ${info.stats.skill_attack}<br>Critical Hit Chance: ${(info.stats.critChance * 100).toFixed(2)}%</h4>
+              `
+              statScreen.style.display = "block"
+            }
+
+            function heroInfo(id) {
+              let ee = id
+              ee = ee.split("-")
+              const info = gameHeroes[Number(ee[1])]
+              statContent.innerHTML = `
+              <h2>${info.name}: Stats</h2><h4>Remaining HP: ${info.stats.hp}<br>Defense: ${info.stats.defense}<br>Base Attack: ${info.stats.base_attack}<br>Skill Attack: ${info.stats.skill_attack}<br>Critical Hit Chance: ${(info.stats.critChance * 100).toFixed(2)}%</h4>
+              `
+              statScreen.style.display = "block"
+            }
+
+            let gameEnemiesCreated = 0
+
+            function populateGameEnemies() {
+              gameEnemiesCreated = 0
+              enemiesDiv.innerHTML = ""
+              gameEnemies.forEach(enemy => {
+              const enemyBox = document.createElement("div");
+              enemyBox.className = "character-box";
+              const id = "enemyBox-" + gameEnemiesCreated
+              enemyBox.id = id
+              enemyBox.onclick = () => enemyInfo(id)
+              enemyBox.innerHTML = `
+                <div class="character-name">${enemy.name}</div>
+                <div class="character-level">Difficulty: ${enemy.difficulty + 1}</div>
+                <div class="character-level">Level ${enemy.level}</div>
+                <div class="character-stats"><h5>HP: ${enemy.stats.hp}<br>Skill Cooldown: ${enemy.skillCD}</h5></div>
+
+                <div class="character-level">Click to View Stats</div>
+              `;
+
+              enemiesDiv.appendChild(enemyBox);
+              gameEnemiesCreated++
+              });
+            }
+
+            let gameHeroesCreated = 0
+
+            function populateGameHeroes() {
+              gameHeroesCreated = 0
+              playerCharacters.innerHTML = ""
+              gameHeroes.forEach(hero => {
+              console.log(hero)
+              const heroBox = document.createElement("div");
+              heroBox.className = "character-box";
+              const id = "heroBox-" + gameHeroesCreated
+              heroBox.id = id
+              heroBox.onclick = () => heroInfo(id)
+              heroBox.innerHTML = `
+                <div class="character-name">${hero.name}</div>
+                <div class="character-level">${hero.stars} Stars</div>
+                <div class="character-level">Level ${hero.level}</div>
+                <div class="character-stats"><h5>HP: ${hero.stats.hp}<br>Skill Cooldown: ${hero.skillCD}</h5></div>
+                <div class="character-level">Click to View Stats</div>
+              `;
+
+              playerCharacters.appendChild(heroBox);
+              gameHeroesCreated++
+              });
+            }
+
+            function updateDisplay(selectedId, toSelected) {
+              if (toSelected) {
+              const ee = unselectedCharacters.findIndex(obj => obj["id"] === selectedId);
+                if (ee == -1) return window.alert("error");
+                if (selected >= maxSelect) return window.alert("You've reached the maximum amount of heroes (<%= maxCharacters %>)")
+                const replacement = unselectedCharacters[ee]
+                unselectedCharacters.splice(ee, 1)
+                selectedCharacters.push(replacement)
+                selected = selected + 1
+              } else {
+                const ee = selectedCharacters.findIndex(obj => obj["id"] === selectedId);
+                if (ee == -1) return window.alert("error");
+                const replacement = selectedCharacters[ee]
+                selectedCharacters.splice(ee, 1)
+                unselectedCharacters.push(replacement)
+                selected = selected - 1
+              }
+              populateHeroes()
+              populateSelected()
+            }
+
+            function populateHeroes() {
+              selectCharacters.innerHTML = ""
+              unselectedCharacters.forEach(hero => {
+              const heroBox = document.createElement("div");
+              heroBox.className = "character-box";
+              heroBox.onclick = function() {
+                updateDisplay(hero.id, true)
+              }
+
+              heroBox.innerHTML = `
+                <div class="character-name">${hero.name}</div>
+                <div class="character-stars">${hero.stars} Star(s)</div>
+                <div class="character-level">Level ${hero.level}<br>Skill Level ${hero.skill_level}</div>
+              `;
+              selectCharacters.appendChild(heroBox);
+              });
+            }
+
+            function populateSelected() {
+              if (!selected == 0) {
+              selectedCharactersBox.innerHTML = ""
+
+              selectedCharacters.forEach(hero => {
+              const heroBox = document.createElement("div");
+              heroBox.className = "character-box";
+              heroBox.onclick = function() {
+                updateDisplay(hero.id, false)
+              }
+
+              heroBox.innerHTML = `
+                <div class="character-name">${hero.name}</div>
+                <div class="character-stars">${hero.stars} Star(s)</div>
+                <div class="character-level">Level ${hero.level}<br>Skill Level ${hero.skill_level}</div>
+              `;
+              selectedCharactersBox.appendChild(heroBox);
+              });
+              } else {
+                selectedCharactersBox.innerHTML = "None selected"
+              }
+            }
+
+            function gameChecks() {
+              selected = selectedCharacters.length
+              if (selected <= maxSelect && selected > 0) {
+                if (selected < maxSelect) {
+                  return [false, "You can still select more heroes. Are you sure?", true]
+                } else {
+                  return [true, "", false]
+                }
+              } else {
+                return [false, "You don't have enough heroes selected.", false]
+              }
+            }
+
+            async function serverCheck() {
+              updateLoad(true)
+              console.log("Running server check...")
+              let stageCalc = window.location.pathname
+              stageCalc = stageCalc.split("/")
+              stageCalc.splice(0,2)
+              const toSend = JSON.stringify({heroes: selectedCharacters, stage: stageCalc[0], level: stageCalc[1]})
+              const campaignrequest = await fetch('/startcampaign', {
+                method: "POST",
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+              body: toSend
+             })
+              updateLoad(false)
+              if (!campaignrequest.ok) {
+                 window.alert("An error occurred. You might have an active game. If you do, use the Attempt Auto-Forfeit button.")
+                throw new Error(`Failed to begin.`)
+                return
+              }
+              const cdata = await campaignrequest.json()
+              if (cdata.gameStart) {
+              mainMenu.style.display = "none";
+              game.style.display = "block";
+                cdata.realEnemies.forEach(enemy => {
+                  enemy.alive = true
+                  enemy.skillCD = 0
+                  gameEnemies.push(enemy)
+                })
+                cdata.realHeroes.forEach(hero => {
+                  hero.alive = true
+                  hero.skillCD = 0
+                  gameHeroes.push(hero)
+                })
+                console.log(gameEnemies)
+                console.log(gameHeroes)
+                populateGameEnemies()
+                populateGameHeroes()
+                populateTurnButtons("hero", "", "")
+              } else {
+                window.alert(`Error: ${cdata.error}`)
+                console.log(cdata.error)
+              }
+            }
+
+            async function play() {
+              const doRun = gameChecks()
+              if (doRun[0]) {
+                await serverCheck()
+              } else {
+                if (!doRun[2]) {
+                window.alert(doRun[1])
+                } else {
+                  const eee = window.confirm(doRun[1])
+                  if (eee) {
+                    await serverCheck()
+                  }
+                }
+              }
+            }
+
+            populateEnemies()
+            populateHeroes()
+          </script>
+</html>

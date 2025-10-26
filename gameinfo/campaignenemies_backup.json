@@ -1,0 +1,35 @@
+{
+    "note": "Type, Hits and doHitsDivide are unused and experimental. They are designed for different ways to attack, different amount of hits, and dividing those hits between the given attack damage respectfully.",
+    "0": {
+        "name": "Spirit of the Forest",
+        "base_attack": {
+            "name": "Log Smash",
+            "type": 0,
+            "hits": 2,
+            "doHitsDivide": true
+        },
+        "skill_attack": {
+            "name": "Verdant Fury",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "1": {
+        "name": "Wildheart Thief"
+    },
+    "2": {
+        "name": "Spirit Poacher"
+    },
+    "3": {
+        "name": "Ivory Stalker"
+    },
+    "4": {
+        "name": "Bulldozer Golem"
+    },
+    "5": {
+        "name": "Toxic Mite"
+    },
+    "6": {
+        "name": "Wilted Bloom"
+    },
+}

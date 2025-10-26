@@ -1,0 +1,163 @@
+:root {
+  --main-bg-color: #6ca76c;
+  --aux-bg-color: #8cb18c;
+  --main-text-color: #1f2e1f;
+  --aux-text-color: var(--aux-bg-color);
+  --main-border-color: #1f2e1f;
+}
+
+html {
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+
+button {
+  padding: 15px;
+  font-size: 15px;
+  border-radius: 15px;
+  border: 2px solid var(--main-border-color);
+  background-color: var(--aux-bg-color);
+  box-shadow: 5px 5px 10px 2px rgba(31, 45, 31, 0.3);
+  transition: 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.15);
+  color: var(--aux-text-color);
+  background-color: var(--main-border-color);
+  box-shadow: 5px 5px 10px 2px rgba(31, 45, 31, 0.5);
+}
+
+h1 {
+  color: var(--main-text-color);
+}
+
+select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-color: var(--aux-bg-color);
+  color: var(--main-text-color);
+  font-size: 16px;
+  padding: 10px 30px 10px 12px; /* <- 30px right padding to make room for arrow */
+  border: 2px solid var(--main-border-color);
+  border-radius: 8px;
+
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='10' height='6'><path d='M0,0 L5,6 L10,0' fill='none' stroke='%231f2e1f' stroke-width='2'/></svg>");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 12px 8px;
+}
+
+hr {
+  color: var(--main-text-color);
+  border-style: solid;
+  opacity: 75%;
+}
+
+.boxsection {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.character-box {
+  border: 2px solid var(--main-text-color);
+  color: var(--main-text-color);
+  border-radius: 12px;
+  padding: 15px;
+  width: 150px;
+  background-color: var(--aux-bg-color);
+  box-shadow: 5px 5px 10px 2px rgba(31, 45, 31, 0.3);
+  transition: 0.3s ease;
+  flex: 0 0 auto;
+  width: 200px;
+  text-align: center;
+}
+
+.character-box:hover {
+  transform: scale(1.03);
+  box-shadow: 5px 5px 10px 2px rgba(31, 45, 31, 0.5);
+  color: var(--aux-text-color);
+  background-color: var(--main-border-color);
+}
+
+.character-name {
+  font-size: 1.2em;
+  margin: 8px 0;
+}
+
+.character-level {
+  font-size: 0.9em;
+}
+
+.character-stars {
+  font-size: 0.9em;
+}
+
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.4);
+  box-shadow: 5px 5px 10px 2px rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: var(--aux-bg-color);
+  margin: 15% auto;
+  padding: 20px;
+  border: 1px solid var(--main-border-color);
+  width: 80%;
+}
+
+.buttonLike {
+  padding: 15px;
+  font-size: 15px;
+  border-radius: 15px;
+  border: 2px solid var(--main-border-color);
+  background-color: var(--aux-bg-color);
+  box-shadow: 5px 5px 10px 2px rgba(31, 45, 31, 0.3);
+  transition: 0.3s ease;
+}
+
+.buttonLike:hover {
+  transform: scale(1.15);
+  color: var(--aux-text-color);
+  background-color: var(--main-border-color);
+  box-shadow: 5px 5px 10px 2px rgba(31, 45, 31, 0.5);
+}
+
+.mini-button {
+  padding: 10px;
+  transform: 0.3s ease;
+}
+
+.mini-button:hover {
+  transform: scale(1);
+}
+
+.special-button {
+  background-color: #87ceeb;
+  color: #00008b;
+  border-color: #00008b;
+}
+
+.special-button:hover {
+  background-color: #00008b;
+  color: #87ceeb;
+}
+
+.characterSection {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
+}

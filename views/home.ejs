@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Home - Verdant Shift</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body style="text-align: center;">
+    <h1>Welcome, <%= username %>!</h1>
+    <button onclick="window.location = '/play/main'" class="special-button" style="font-size: 20px;"><b>Play</b></button>
+    <br>
+    <br>
+    <button onclick="window.location = '/settings'" class="mini-button">Account Settings</button>
+    <br>
+    <br>
+    <button onclick="window.location='/credits'" class="mini-button">Credits</button>
+    <br>
+    <br>
+    <button onclick="window.location='/source'" class="mini-button">Source Code</button>
+    <div id="extras">
+    <br>
+    <%- adminbutton %>
+    </div>
+  </body>
+  <script>
+    <%- adminfunction %>
+  </script>
+</html>

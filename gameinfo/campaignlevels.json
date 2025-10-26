@@ -1,0 +1,344 @@
+{
+    "note": "level and difficulty are used to decide the stats of an enemy without having to give individual stats to each enemy. Level is currently unused, but it functions the same as character leveling.",
+    "difficulty_multipliers": [0.5, 0.75, 1, 1.25, 1.5, 2],
+    "default_stats": {
+        "base_attack": 80,
+        "skill_attack": 220,
+        "hp": 900,
+        "defense": 500,
+        "critChance": 0.025
+    },
+    "1": {
+        "1": {
+            "name": "Amazon Forest Logging",
+            "lore": {
+                "main": "Every year, thousands of square kilometers of rainforest in Brazil and surrounding countries are destroyed for many reasons, including cattle expansion and roads. Scientists fear this could end up reaching a 'tipping point,' which could lead to desertification with a massive impact on the climate.",
+                "source": "https://www.carbonbrief.org/drying-of-amazon-could-be-early-warning-of-tipping-point-for-the-rainforest",
+                "source_aux": "https://www.science.org/doi/10.1126/sciadv.add9973",
+                "help": "https://www.nature.org/en-us/about-us/where-we-work/latin-america/brazil",
+                "learn_more": "https://en.wikipedia.org/wiki/Deforestation_of_the_Amazon_rainforest"
+            },
+            "enemies": [{"id": "0", "difficulty": 0, "level": 1}],
+            "maxCharacters": 1
+        },
+        "2": {
+            "name": "The Pet Trade",
+            "lore": {
+                "main": "The illegal trade of pets throughout the Americas is fueled by its high benefit and relatively low risk, despite it being illegal in some way in nearly every country in the region. All around the world, there is a demand for exotic pets such as those found in the Amazon. Over 100,000 illegally trafficked wild animals have been reported, a majority of them being alive, but the real number is likely much higher.",
+                "source": "https://www.ifaw.org/ca-en/resources/wildlife-crime-hispanic-america-report",
+                "help": "https://give-ca.ifaw.org/page/donate-ca",
+                "learn_more": "https://wwf.panda.org/discover/our_focus/wildlife_practice/problems/illegal_trade"
+            },
+            "enemies": [{"id": 1, "difficulty": 0, "level": 1}],
+            "maxCharacters": 1
+        },
+        "3": {
+            "name": "Poaching",
+            "lore": {
+                "main": "Since 2015, Bolivia has been a hub for animal poaching, especially with jaguars. Because of underfunded enforcement agencies, poachers have been able to kill an estimated 61 jaguars per year. In the seven years between 2014 and 2021, authorities in Bolivia seized at least 760 jaguar teeth, a majority of them en route to China.",
+                "source": "https://insightcrime.org/investigations/poachers-safe-haven-bolivian-amazon-plundered-wildlife",
+                "learn_more": "https://english.elpais.com/international/2025-02-25/the-most-coveted-trophy-europeans-and-asians-embrace-illegal-jaguar-hunting-in-bolivia.html",
+                "help": "https://wwf.panda.org/discover/our_focus/wildlife_practice/problems/illegal_trade"
+            },
+            "enemies": [{"id": 2, "difficulty": 0, "level": 1}, {"id": 3, "difficulty": 0, "level": 1}],
+            "maxCharacters": 2
+        },
+        "4": {
+            "name": "Habitat Loss",
+            "lore": {
+                "main": "Throughout the Americas, habitats are lost at a rate of millions of acres (1m acres = ~4046km², ~1562mi²) per year. Most of this land is used for crop or grazing expansions, with a majority of these being unsustainable. In North America specifically, loss of grassland habitat threatens essential parts of our lives, including pollinators and even clean water and air.",
+                "source": "https://www.worldwildlife.org/news/press-releases/18m-acres-of-north-american-great-plains-destroyed-in-2020",
+                "learn_more": "https://en.wikipedia.org/wiki/Habitat_destruction",
+                "help": "https://www.worldwildlife.org/support/give"
+            },
+            "enemies": [{"id": 0, "difficulty": 1, "level": 1}, {"id": 4, "difficulty": 0, "level": 1}],
+            "maxCharacters": 2
+        },
+        "5": {
+            "name": "Pollinators and Pesticides",
+            "lore": {
+                "main": "Pesticides harm humans and the environment in many ways. Studies have shown that exposure to foods can lead to higher chances of chronic disease. Additionally, pesticides impact soil health, which is a major issue for healthy crop production.",
+                "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2984095",
+                "learn_more": "https://earth.org/the-environmental-and-health-impacts-of-pesticides",
+                "help": "https://www.ewg.org/foodnews/summary.php"
+            },
+            "enemies": [{"id": 5, "difficulty": 1, "level": 1}, {"id": 6, "difficulty": 1, "level": 1}],
+            "maxCharacters": 2
+        },
+        "6": {
+            "name": "Ocean Plastics",
+            "lore": {
+                "main": "Between 2009 and 2018, the world lost about 14 percent of coral on its reefs. As of 2025, an estimated 75 to 199 million tons of plastic waste is in our oceans. Approximately 33 billion pounds of plastic enter our oceans each year. More than 1 million seabirds and 100,000 marine animals die from plastic pollution yearly.",
+                "source": "https://www.condorferries.co.uk/plastic-in-the-ocean-statistics",
+                "learn_more": "https://en.wikipedia.org/wiki/Plastic_pollution",
+                "help": "https://plasticbank.com/"
+            },
+            "enemies": [{"id": 7, "difficulty": 1, "level": 1}, {"id": 8, "difficulty": 1, "level": 1}],
+            "maxCharacters": 2
+        },
+        "7": {
+            "name": "Boss: Devourer of Lands",
+            "lore": {
+                "main": "Congratulations, you've learned about a majority of the environmental issues in the Americas. Only by protecting our oceans, forests, and grasslands can we help our environment.",
+                "source": "https://www.worldwildlife.org/threats",
+                "learn_more": "https://www.un.org/esa/socdev/unpfii/documents/workshop_IPPE_castro.pdf",
+                "help": "https://www.rainforest-alliance.org/donate/"
+            },
+            "enemies": [
+                {"id": 9, "difficulty": 2, "level": 1},
+                {"id": 0, "difficulty": 1, "level": 1},
+                {"id": 2, "difficulty": 1, "level": 1}
+            ],
+            "maxCharacters": 3
+        }
+    },
+    "2": {
+        "1": {
+            "name": "Ivory Hunters",
+            "lore": {
+                "main": "Fueled by the ivory trade, around 15,000 African elephants are killed each year for their tusks—that's an average of 40 a day. Starting in the early 2010s, elephant poaching in Africa soared due to increasing demand for ivory, particularly in China and the Far East, where it is used for ornaments and seen as a luxury status symbol.",
+                "source": "https://www.wwf.org.uk/updates/fighting-end-elephant-ivory-trade",
+                "learn_more": "https://en.wikipedia.org/wiki/Ivory_trade",
+                "help": "https://www.worldwildlife.org/species/african-elephant"
+            },
+            "enemies": [{"id": 3, "difficulty": 1, "level": 1}],
+            "maxCharacters": 2
+        },
+        "2": {
+            "name": "Poaching #2",
+            "lore": {
+                "main": "Over 20,000 African elephants were poached across the continent in 2013. Although poaching levels have gradually declined since their 2011 peak, they remain too high when viewed continent-wide, with overall elephant populations likely continuing to decline. Poverty, weak governance, and demand for illegal ivory are key factors linked to higher poaching levels.",
+                "source": "https://cites.org/eng/elephant_poaching_and_ivory_smuggling_figures_for_2013_released",
+                "learn_more": "https://www.traffic.org/what-we-do/species/elephants-ivory/",
+                "help": "https://savetheelephants.org/support-us/"
+            },
+            "enemies": [{"id": 2, "difficulty": 1, "level": 1}, {"id": 3, "difficulty": 1, "level": 1}],
+            "maxCharacters": 2
+        },
+        "3": {
+            "name": "Habitat Loss #2",
+            "lore": {
+                "main": "The growth in human population has driven land-use changes resulting in an increase in infrastructural developments, which have led to fragmentation and loss of wildlife habitats. It is estimated that the population of African elephants declined by 111,000 over the past ten years due to habitat loss, poaching, and human expansion.",
+                "source": "hhttps://savetheelephants.org/about-elephants/statistics",
+                "learn_more": "https://en.wikipedia.org/wiki/Habitat_destruction#Africa",
+                "help": "https://www.africanwildlifefoundation.org/donate"
+            },
+            "enemies": [{"id": 4, "difficulty": 1, "level": 1}, {"id": 10, "difficulty": 1, "level": 1}],
+            "maxCharacters": 2
+        },
+        "4": {
+            "name": "Vehicle Collisions",
+            "lore": {
+                "main": "In South Africa, mammals are the most commonly-reported roadkill (50%), followed by birds (18%), reptiles (6%), and amphibians (1%). Since 2011, over 500 fatal wildlife-train collisions have occurred on railway lines through protected areas, involving endangered species like Black Rhinoceros, African Wild Dog, and African Elephants.",
+                "source": "https://ewt.org/what-we-do/benefitting-people/bbn-programme/wildlife-and-transport/",
+                "learn_more": "https://en.wikipedia.org/wiki/Roadkill",
+                "help": "https://ewt.org/donate/"
+            },
+            "enemies": [{"id": 11, "difficulty": 1, "level": 1}, {"id": 12, "difficulty": 1, "level": 1}],
+            "maxCharacters": 3
+        },
+        "5": {
+            "name": "Diseases",
+            "lore": {
+                "main": "East Africa, with an abundance of free-ranging wild animals and interactions between animals and humans at various interfaces, hosts favorable conditions for transmission of zoonotic diseases. Over the years, the region has been struggling with rabies, brucellosis, anthrax, Rift Valley fever, and other diseases that threaten both wildlife conservation and human communities.",
+                "source": "https://www.traffic.org/news/current-zoonotic-diseases-challenges-east-africa/",
+                "learn_more": "https://en.wikipedia.org/wiki/Wildlife_disease",
+                "help": "https://www.ifaw.org/projects/community-conservation"
+            },
+            "enemies": [{"id": 13, "difficulty": 2, "level": 1}, {"id": 14, "difficulty": 1, "level": 1}],
+            "maxCharacters": 3
+        },
+        "6": {
+            "name": "Human Conflict",
+            "lore": {
+                "main": "As wildlife populations expand and humans encroach upon wildlife areas, conflicts increase. Elephants may raid crops, lions may prey on livestock, and communities face physical danger from larger predator species. These human-wildlife conflicts threaten both conservation efforts and local livelihoods, creating a cycle where wildlife populations suffer from retaliatory killings.",
+                "source": "https://journals.sagepub.com/doi/10.1177/25148486231160637",
+                "learn_more": "https://en.wikipedia.org/wiki/Human%E2%80%93wildlife_conflict",
+                "help": "https://www.worldwildlife.org/initiatives/wildlife-conservation"
+            },
+            "enemies": [{"id": 15, "difficulty": 2, "level": 1}, {"id": 16, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "7": {
+            "name": "Boss: The Poacher King",
+            "lore": {
+                "main": "Congratulations, you've completed the second continent in your journey to fully understanding the world's environmental issues. Only by strengthening law enforcement, supporting local communities, and reducing demand for illegal wildlife products can this threat be defeated.",
+                "source": "https://www.ifaw.org/journal/elephant-poaching-problem",
+                "learn_more": "https://www.traffic.org/",
+                "help": "https://www.wildaid.org/donate/"
+            },
+            "enemies": [
+                {"id": 17, "difficulty": 2, "level": 1},
+                {"id": 2, "difficulty": 2, "level": 1},
+                {"id": 3, "difficulty": 2, "level": 1}
+            ],
+            "maxCharacters": 3
+        }
+    },
+    "3": {
+        "1": {
+            "name": "Fragmentation",
+            "lore": {
+                "main": "Habitat fragmentation from human development poses an increasing threat to biodiversity across Europe. Roads, urbanization, and agriculture divide habitats into smaller, disconnected sections, making wildlife populations unstable or isolated. To counterbalance these effects, many European countries have adopted conservation strategies that include wildlife corridors.",
+                "source": "https://rewildingeurope.com/news/making-the-connection/",
+                "learn_more": "https://en.wikipedia.org/wiki/Habitat_fragmentation",
+                "help": "https://rewildingeurope.com/support-us/"
+            },
+            "enemies": [{"id": 18, "difficulty": 1, "level": 1}],
+            "maxCharacters": 2
+        },
+        "2": {
+            "name": "Poaching #3",
+            "lore": {
+                "main": "Despite strong conservation efforts across Europe, illegal poaching of protected species continues. From birds of prey to large carnivores like wolves and bears, poachers threaten vulnerable populations. Enforcement challenges, particularly in remote areas and across national borders, allow this illegal activity to persist.",
+                "source": "https://www.wwf.eu/?11229466/Most-wildlife-crimes-in-Europe-go-unpunished-or-undetected-says-a-brand-new-report",
+                "learn_more": "https://en.wikipedia.org/wiki/Poaching",
+                "help": "https://www.traffic.org/donate/"
+            },
+            "enemies": [{"id": 2, "difficulty": 2, "level": 1}, {"id": 19, "difficulty": 1, "level": 1}],
+            "maxCharacters": 3
+        },
+        "3": {
+            "name": "Vehicle Collisions #2",
+            "lore": {
+                "main": "In Belgium, which has Europe's densest road network, an estimated 194 million birds and 29 million mammals die annually from vehicle collisions. The world's road networks are expected to increase by 25 million kilometers by midcentury, further fragmenting habitats into tiny road-encircled parcels and threatening species with local extinction.",
+                "source": "https://natureconservation.pensoft.net/article/1345",
+                "learn_more": "https://en.wikipedia.org/wiki/Roadkill",
+                "help": "https://www.mossy.earth/membership"
+            },
+            "enemies": [{"id": 11, "difficulty": 2, "level": 1}, {"id": 12, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "4": {
+            "name": "Habitat Loss #3",
+            "lore": {
+                "main": "The 2019 Global Assessment on Biodiversity reports that human impact is responsible for 1 million plant and animal species facing extinction. In Europe, agricultural expansion, urban development, and deforestation continue to shrink natural habitats, leaving wildlife with fewer places to live, find food, and reproduce.",
+                "source": "https://lp.panda.org/ipbes",
+                "learn_more": "https://en.wikipedia.org/wiki/Habitat_destruction",
+                "help": "https://treesforlife.org.uk/support/donate/"
+            },
+            "enemies": [{"id": 4, "difficulty": 2, "level": 1}, {"id": 10, "difficulty": 2, "level": 1}, {"id": 18, "difficulty": 1, "level": 1}],
+            "maxCharacters": 3
+        },
+        "5": {
+            "name": "Changing Laws",
+            "lore": {
+                "main": "Conservation laws across Europe vary widely between countries, creating challenges for protecting migratory species and transboundary populations. Changes in political landscapes can weaken environmental protections, while enforcement of existing laws often lacks adequate funding and coordination between nations.",
+                "source": "https://www.eea.europa.eu/en/newsroom/news/state-of-europes-environment-2025",
+                "learn_more": "https://en.wikipedia.org/wiki/Environmental_policy_of_the_European_Union",
+                "help": "https://www.clientearth.org/support-us/"
+            },
+            "enemies": [{"id": 20, "difficulty": 2, "level": 1}, {"id": 21, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "6": {
+            "name": "Diseases #2",
+            "lore": {
+                "main": "Wildlife diseases pose significant threats to European biodiversity. Canine distemper, avian influenza, and other pathogens can devastate wild populations, especially those already weakened by habitat loss and fragmentation. Climate change is expanding the range of disease vectors, bringing new health threats to wildlife populations.",
+                "source": "https://www.intechopen.com/chapters/73864",
+                "learn_more": "https://en.wikipedia.org/wiki/Wildlife_disease",
+                "help": "https://www.ifaw.org/projects/emergency-relief"
+            },
+            "enemies": [{"id": 13, "difficulty": 2, "level": 1}, {"id": 14, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "7": {
+            "name": "Boss: The Materialism Overlord",
+            "lore": {
+                "main": "Congrats, you're almost done with learning about environmental issues from around the world. Protecting Europe's biodiversity requires systemic changes in how we produce, consume, and protect our natural world.",
+                "source": "https://www.eea.europa.eu/en/topics/in-depth/circular-economy",
+                "learn_more": "https://en.wikipedia.org/wiki/Overconsumption",
+                "help": "https://www.wwf.eu/get_involved/donate/"
+            },
+            "enemies": [
+                {"id": 22, "difficulty": 3, "level": 1},
+                {"id": 18, "difficulty": 2, "level": 1},
+                {"id": 20, "difficulty": 2, "level": 1}
+            ],
+            "maxCharacters": 4
+        }
+    },
+    "4": {
+        "1": {
+            "name": "Poaching #4",
+            "lore": {
+                "main": "Across Asia, poaching remains a critical threat to endangered species. From tigers and rhinos to pangolins and elephants, wildlife is hunted for traditional medicine, luxury goods, and the exotic pet trade. Despite international bans, organized criminal networks continue to profit from this illegal trade.",
+                "source": "https://tigers.panda.org/news_and_stories/stories/asia_s_poaching_crisis",
+                "learn_more": "https://en.wikipedia.org/wiki/Poaching#Asia",
+                "help": "https://www.wildaid.org/programs/"
+            },
+            "enemies": [{"id": 2, "difficulty": 2, "level": 1}, {"id": 23, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "2": {
+            "name": "Human Expansion",
+            "lore": {
+                "main": "Asia is home to 60% of the world's population, and rapid urbanization is transforming landscapes at an unprecedented rate. Cities expand into forests, agricultural land replaces wildlife habitats, and infrastructure projects fragment ecosystems. This human expansion leaves less space for wildlife and increases human-wildlife conflicts.",
+                "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC10513745",
+                "learn_more": "https://en.wikipedia.org/wiki/Deforestation_in_Southeast_Asia",
+                "help": "https://www.rainforest-trust.org/donate/"
+            },
+            "enemies": [{"id": 15, "difficulty": 2, "level": 1}, {"id": 24, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "3": {
+            "name": "Deforestation",
+            "lore": {
+                "main": "Southeast Asia has experienced some of the highest rates of deforestation globally, driven by palm oil plantations, timber logging, and agricultural expansion. Indonesia and Malaysia alone account for 85% of global palm oil production, which has led to massive habitat loss for orangutans, tigers, elephants, and countless other species.",
+                "source": "https://www.worldwildlife.org/threats/deforestation-and-forest-degradation",
+                "learn_more": "https://en.wikipedia.org/wiki/Deforestation_in_Borneo",
+                "help": "https://www.orangutan.org.au/donate"
+            },
+            "enemies": [{"id": 0, "difficulty": 2, "level": 1}, {"id": 4, "difficulty": 2, "level": 1}, {"id": 25, "difficulty": 2, "level": 1}],
+            "maxCharacters": 3
+        },
+        "4": {
+            "name": "Ivory Hunters #2",
+            "lore": {
+                "main": "While African elephants are most affected by ivory poaching, Asian elephants also face significant threats. They are poached not only for their tusks but increasingly for their skin and meat for traditional medicine. The Asian elephant population has been severely impacted, with only about 40,000-50,000 remaining in the wild. It is estimated that 90% of all Asian elephants have been poached in the last 100 years.",
+                "source": "https://www.ifaw.org/journal/elephant-poaching-problem",
+                "learn_more": "https://en.wikipedia.org/wiki/Asian_elephant#Conservation",
+                "help": "https://www.asianelephantprojects.com/donate/"
+            },
+            "enemies": [{"id": 3, "difficulty": 2, "level": 1}, {"id": 26, "difficulty": 2, "level": 1}],
+            "maxCharacters": 4
+        },
+        "5": {
+            "name": "Bleached Coral Reefs",
+            "lore": {
+                "main": "Between 2009 and 2018, the world lost 14% of coral on its reefs, with rising sea temperatures being the main driver. The Coral Triangle in Southeast Asia contains 30% of the world's reefs and has been less impacted than other regions, but continued warming threatens these vital ecosystems. If temperatures rise 2°C, 99% of reef-building corals are expected to perish.",
+                "source": "https://www.unep.org/news-and-stories/press-release/rising-sea-surface-temperatures-driving-loss-14-percent-corals-2009",
+                "learn_more": "https://en.wikipedia.org/wiki/Coral_bleaching",
+                "help": "https://www.coral.org/donate/"
+            },
+            "enemies": [{"id": 27, "difficulty": 3, "level": 1}, {"id": 28, "difficulty": 2, "level": 1}],
+            "maxCharacters": 4
+        },
+        "6": {
+            "name": "Ocean Plastics #2",
+            "lore": {
+                "main": "Asia contributes 81% of plastic waste entering the ocean, with the Philippines producing the highest amount per capita. Rivers like the Ganges and Indus carry massive amounts of plastic pollution into the Indian Ocean. An estimated 11 million tonnes of plastic enters oceans annually, threatening marine life and ecosystems throughout Asia-Pacific waters.",
+                "source": "https://oceansasia.org/plastic-pollution",
+                "learn_more": "https://ourworldindata.org/plastic-pollution",
+                "help": "https://theoceancleanup.com/donate/"
+            },
+            "enemies": [{"id": 7, "difficulty": 3, "level": 1}, {"id": 8, "difficulty": 3, "level": 1}],
+            "maxCharacters": 4
+        },
+        "7": {
+            "name": "Boss: The Coral Reaper",
+            "lore": {
+                "main": "Congratulations, you've completed your journey to learn about environmental issues from around the world. Coral reefs support 25% of marine life. Only through global cooperation to reduce emissions and protect marine habitats can we hope to save the world's coral reefs from complete collapse.",
+                "source": "https://www.unep.org/news-and-stories/story/worlds-corals-are-bleaching-heres-why-and-what-it-means-oceans-future",
+                "learn_more": "https://en.wikipedia.org/wiki/Environmental_issues_in_Southeast_Asia",
+                "help": "https://www.coraltriangleinitiative.org/get-involved"
+            },
+            "enemies": [
+                {"id": 29, "difficulty": 3, "level": 1},
+                {"id": 27, "difficulty": 3, "level": 1},
+                {"id": 7, "difficulty": 2, "level": 1}
+            ],
+            "maxCharacters": 4
+        }
+    }
+}

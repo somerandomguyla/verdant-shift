@@ -1,0 +1,276 @@
+{
+  "0": {
+    "name": "Sylas",
+    "lore": "",
+    "img": "",
+    "base_stars": 3,
+    "rarity": 2,
+    "base_stats": {
+      "hp": 500,
+      "defense": 300,
+      "critChance": 0.02
+    },
+    "base_attack": {
+      "base_dmg": 50,
+      "name": "Staff Smash",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 125,
+      "name": "Wizard's Rage",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "1": {
+    "name": "Arlo",
+    "lore": "",
+    "img": "",
+    "base_stars": 1,
+    "rarity": 0,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "2": {
+    "name": "Kaelen",
+    "lore": "",
+    "img": "",
+    "base_stars": 2,
+    "rarity": 1,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "3": {
+    "name": "Thalara",
+    "lore": "",
+    "img": "",
+    "base_stars": 4,
+    "rarity": 3,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "4": {
+    "name": "Rowan",
+    "lore": "",
+    "img": "",
+    "base_stars": 5,
+    "rarity": 4,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "5": {
+    "name": "Eira",
+    "lore": "",
+    "img": "",
+    "base_stars": 6,
+    "rarity": 5,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "6": {
+    "name": "Torin",
+    "lore": "",
+    "img": "",
+    "base_stars": 1,
+    "rarity": 0,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "7": {
+    "name": "Veyra",
+    "lore": "",
+    "img": "",
+    "base_stars": 2,
+    "rarity": 1,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "8": {
+    "name": "Neris",
+    "lore": "",
+    "img": "",
+    "base_stars": 3,
+    "rarity": 2,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "9": {
+    "name": "Corven",
+    "lore": "",
+    "img": "",
+    "base_stars": 4,
+    "rarity": 3,
+    "base_stats": {
+      "hp": 400,
+      "defense": 240,
+      "critChance": 0.018
+    },
+    "base_attack": {
+      "base_dmg": 40,
+      "name": "test base attack",
+      "type": 0,
+      "hits": 1
+    },
+    "skill_attack": {
+      "base_dmg": 115,
+      "name": "test skill attack",
+      "type": 1,
+      "hits": 2
+    }
+  },
+  "note": "Lore/images are unused. critChance is a percentage, so 0.01 is 1%. Starting at 0, rarities are common, uncommon, rare, epic, legendary, mythic. Attack types are: 0: one target, 1: all opponents, 2: target & one random, 3: heal",
+  "maxID": 9,
+  "ID_byRarity": [
+    [
+      "1",
+      "6"
+    ],
+    [
+      "2",
+      "7"
+    ],
+    [
+      "0",
+      "8"
+    ],
+    [
+      "3",
+      "9"
+    ],
+    [
+      "4"
+    ],
+    [
+      "5"
+    ]
+  ],
+  "duplicateCharacterCoins": [
+    8415,
+    20196,
+    42075,
+    75735,
+    117810,
+    168300
+  ]
+}

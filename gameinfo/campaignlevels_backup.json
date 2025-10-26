@@ -1,0 +1,79 @@
+{
+    "note": "level and difficulty are used to decide the stats of an enemy without having to give individual stats to each enemy. Level is currently unused, but it functions the same as character leveling.",
+    "difficulty_multipliers": [0.5, 0.75, 1, 1.25, 1.5, 2],
+    "default_stats": {
+        "base_attack": 80,
+        "skill_attack": 220,
+        "hp": 900,
+        "defense": 500,
+        "critChance": 0.025
+    },
+    "1": {
+        "1": {
+            "name": "Amazon Forest Logging",
+            "lore": {
+                "main": "Every year, thousands of square kilometers of rainforest in Brazil and surrounding countries are destroyed for many reasons, including cattle expansion and roads. Scientists fear this could end up reaching a &quot;tipping point,&quot; which could lead to desertification with a massive impact on the climate.",
+                "source": "https://www.carbonbrief.org/drying-of-amazon-could-be-early-warning-of-tipping-point-for-the-rainforest",
+                "source_aux": "https://www.science.org/doi/10.1126/sciadv.add9973",
+                "help": "https://www.nature.org/en-us/about-us/where-we-work/latin-america/brazil",
+                "learn_more": "https://en.wikipedia.org/wiki/Deforestation_of_the_Amazon_rainforest",
+                "learn_more_dangerous": true
+            },
+            "enemies": [{"id": "0", "difficulty": 0, "level": 1}],
+            "maxCharacters": 1
+        },
+    "2": {
+        "name": "The Pet Trade",
+        "lore": {
+            "main": "The illegal trade of pets throughout the Americas is fueled by its high benefit and relatively low risk, despite it being illegal in some way in nearly every country in the region. All around the world, there is a demand for exotic pets such as those found in the Amazon. Over 100,000 illegally trafficked wild animals have been reported, a majority of them being alive, but the real number is likely much higher.",
+            "source": "https://www.ifaw.org/ca-en/resources/wildlife-crime-hispanic-america-report",
+            "help": "https://give-ca.ifaw.org/page/donate-ca",
+            "learn_more": "https://wwf.panda.org/discover/our_focus/wildlife_practice/problems/illegal_trade"
+        },
+        "enemies": [{"id": 1, "difficulty": 0, "level": 1}],
+        "maxCharacters": 1
+    },
+    "3": {
+        "name": "Poaching",
+        "lore": {
+            "main": "Since 2015, Bolivia has been a hub for animal poaching, especially with jaguars. Because of underfunded enforcement agencies, poachers have been able to kill an estimated 61 jaguars per year. In the seven years between 2014 and 2021, authorities in Bolivia seized at least 760 jaguar teeth, a majority of them en route to China.",
+            "source": "https://insightcrime.org/investigations/poachers-safe-haven-bolivian-amazon-plundered-wildlife",
+            "learn_more": "https://english.elpais.com/international/2025-02-25/the-most-coveted-trophy-europeans-and-asians-embrace-illegal-jaguar-hunting-in-bolivia.html",
+            "help": "https://wwf.panda.org/discover/our_focus/wildlife_practice/problems/illegal_trade"
+        },
+        "enemies": [{"id": "2", "difficulty": 0, "level": 1}, {"id": "3", "difficulty": 0, "level": 1}],
+        "maxCharacters": 2
+    },
+"4": {
+    "name": "Habitat Loss",
+    "lore": {
+        "main": "Throughout the Americas, habitats are lost at a rate of millions of acres (1m acres = ~4046km², ~1562mi²) per year. Most of this land is used for crop or grazing expansions, with a majority of these being unsustainable. In North America specifically, loss of grassland habitat threatens essential parts of our lives, including pollinators and even clean water and air.",
+        "source": "https://www.worldwildlife.org/news/press-releases/18m-acres-of-north-american-great-plains-destroyed-in-2020",
+        "learn_more": "https://en.wikipedia.org/wiki/Habitat_destruction",
+        "help": "https://www.worldwildlife.org/support/give"
+    },
+    "enemies": [{"id": "0", "difficulty": 1, "level": 1}, {"id": "4", "difficulty": 0, "level": 1}],
+    "maxCharacters": 2
+},
+"5": {
+    "name": "Pollinators and Pesticides",
+    "lore": {
+        "main": "Pesticides harm humans and the environment in many ways. Studies have shown that exposure to foods can lead to higher chances of chronic disease. Additionally, pesticides impact soil health, which is a major issue for healthy crop production.",
+        "source": "https://pmc.ncbi.nlm.nih.gov/articles/PMC2984095",
+        "learn_more": "https://earth.org/the-environmental-and-health-impacts-of-pesticides",
+        "help": "https://www.ewg.org/foodnews/summary.php"
+    },
+    "enemies": [{"id": "5", "difficulty": 1, "level": 1}, {"id": "6", "difficulty": 1, "level": 1}],
+    "maxCharacters": 2
+},
+"6": {
+    "name": "Ocean Plastics",
+    "lore": {
+        "main": "Currently, an estimated 5.25 trillion pieces of plastic are floating in our oceans. In fact, we've made more plastic in the past 10 years than we have in the past century (as of 2025). Approximately 33 billion pounds (~4.99 billion kg) of plastic enter our oceans each year.",
+        "source": "",
+        "learn_more": "",
+        "help": ""
+    }
+}
+    }
+}

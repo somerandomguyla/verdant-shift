@@ -1,0 +1,26 @@
+<html>
+  <head>
+    <title>Verdant Shift - Confirm Logout</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <h1>Are you sure you want to log out?</h1>
+    If you log out without your session ID saved, <b>there is no way to log back in.</b>
+    <br>The safest option is to use Instant Login, which keeps you logged out but stores your ID on your browser. <b>This does not work if you clear your cookies afterwards.</b>
+    <br>Your session ID is <b><%= sessionID %></b>
+    <br><br><button class="mini-button" onclick="confirm(true)">Yes, log me out with Instant Login</button>  <button class="special-button mini-button" onclick="window.location = '/'">No, bring me back to safety</button>
+  </body>
+  <script>
+    const username = "<%= username %>"
+    function confirm(doInstantLogin) {
+      const textInput = window.prompt("Enter your username (<%= username %>) to confirm.")
+      if (!textInput) return;
+      window.alert(textInput)
+      if (textInput.trim() !== username) return window.alert("You typed the wrong username.")
+      if (doInstantLogin) {
+        document.cookie = "instantLogin=<%= sessionID %>; secure;"
+      }
+      window.location = "/logout-confirm"
+    }
+  </script>
+</html>

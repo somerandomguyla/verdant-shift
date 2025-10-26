@@ -1,0 +1,20 @@
+<html>
+  <head>
+    <title>Settings - Verdant Shift</title>
+    <link href="/static/style.css" rel="stylesheet">
+    <link href="/static/favicon.jpg" rel="icon" type="image/x-icon">
+  </head>
+  <body>
+    <center>
+    <h1>Account Settings</h1>
+      Your account session ID is <b><%= session %></b>.<br><br> It is important to note that <b>logging out or clearing cookies without having this session ID saved will lock you out of your account.</b> This ID should be saved in a password manager.<br><br>
+      <button onclick="window.location = '/logout'">Log Out</button>
+      <br>
+      <br>
+      <button onclick="window.location = '/deleteaccount'">Delete My Account</button>
+      <br>
+      <br>
+      <button onclick="window.location = '/'" class="special-button mini-button">Return to Main Menu</button>
+    </center>
+  </body>
+</html>

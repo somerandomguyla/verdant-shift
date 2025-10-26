@@ -1,0 +1,36 @@
+<html>
+  <head>
+    <title>Account Suspended - Celestial Ascent</title>
+  </head>
+  <body>
+    <h1>Account Suspended</h1>
+    Your account has been suspended.
+    <h3>Suspension Info</h3>
+    Suspension ID: <%- suspensionID %>
+    Account Suspended On: <%- suspensionDate %><br>
+    Reason Given: <%- suspensionReason %><br>
+    Suspension Length: <%- suspensionLength %>
+      <br>
+    <small>Note that suspensions are manually revoked. If your suspension has expired, contact support.</small>
+      <button onclick="window.location = '/appeals'">Appeal Suspension</button>
+      <br>
+      <br>
+      <button onclick="logout()">Log out</button>   <button onclick="deleteaccount()">Delete my Account</button>
+
+      <script>
+        function logout() {
+          const e = window.confirm("WARNING: Creating alternate accounts to bypass punishments will cause a permanent deletion of your account. Game progress will not be saved or retreivable in any way.")
+          if (e) {
+            window.location = "/logout"
+          }
+        }
+
+        function deleteaccount() {
+          const e = window.confirm("WARNING: Creating alternate accounts to bypass punishments will cause a permanent deletion of your account. Game progress will not be saved or retreivable in any way.")
+          if (e) {
+            window.location = "/deleteaccount"
+          }
+        }
+      </script>
+    </body>
+    </html>

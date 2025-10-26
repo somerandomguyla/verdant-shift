@@ -1,0 +1,394 @@
+{
+    "note": "Type, Hits and doHitsDivide are unused and experimental. They are designed for different ways to attack, different amount of hits, and dividing those hits between the given attack damage respectfully.",
+    "0": {
+        "name": "Spirit of the Forest",
+        "base_attack": {
+            "name": "Log Smash",
+            "type": 0,
+            "hits": 2,
+            "doHitsDivide": true
+        },
+        "skill_attack": {
+            "name": "Verdant Fury",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "1": {
+        "name": "Wildheart Thief",
+        "base_attack": {
+            "name": "Snare Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Cage Trap",
+            "type": 1,
+            "hits": 1
+        }
+    },
+    "2": {
+        "name": "Spirit Poacher",
+        "base_attack": {
+            "name": "Rifle Shot",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Tracking Shot",
+            "type": 1,
+            "hits": 2
+        }
+    },
+    "3": {
+        "name": "Ivory Stalker",
+        "base_attack": {
+            "name": "Tusk Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Greed Rush",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "4": {
+        "name": "Bulldozer Golem",
+        "base_attack": {
+            "name": "Ground Pound",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Demolition Charge",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "5": {
+        "name": "Toxic Mite",
+        "base_attack": {
+            "name": "Poison Bite",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Pesticide Cloud",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "6": {
+        "name": "Wilted Bloom",
+        "base_attack": {
+            "name": "Withering Touch",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Decay Spores",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "7": {
+        "name": "Plastic Serpent",
+        "base_attack": {
+            "name": "Trash Coil",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Toxic Tide",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "8": {
+        "name": "Pollution Wraith",
+        "base_attack": {
+            "name": "Chemical Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Microplastic Storm",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "9": {
+        "name": "Devourer of Lands",
+        "base_attack": {
+            "name": "Consuming Maw",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Ecological Collapse",
+            "type": 2,
+            "hits": 3
+        }
+    },
+    "10": {
+        "name": "Urban Sprawl",
+        "base_attack": {
+            "name": "Concrete Crush",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Expansion Wave",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "11": {
+        "name": "Steel Chariot",
+        "base_attack": {
+            "name": "Road Impact",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Highway Rampage",
+            "type": 1,
+            "hits": 2
+        }
+    },
+    "12": {
+        "name": "Asphalt Beast",
+        "base_attack": {
+            "name": "Tire Slash",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Traffic Surge",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "13": {
+        "name": "Plague Carrier",
+        "base_attack": {
+            "name": "Infected Bite",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Epidemic Spread",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "14": {
+        "name": "Contagion Spirit",
+        "base_attack": {
+            "name": "Viral Touch",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Disease Outbreak",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "15": {
+        "name": "Vengeful Hunter",
+        "base_attack": {
+            "name": "Retribution Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Conflict Escalation",
+            "type": 1,
+            "hits": 2
+        }
+    },
+    "16": {
+        "name": "Border Sentinel",
+        "base_attack": {
+            "name": "Territory Guard",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Defensive Fury",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "17": {
+        "name": "The Poacher King",
+        "base_attack": {
+            "name": "Trophy Shot",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Criminal Empire",
+            "type": 2,
+            "hits": 3
+        }
+    },
+    "18": {
+        "name": "Barrier Wraith",
+        "base_attack": {
+            "name": "Division Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Fragmentation Field",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "19": {
+        "name": "Shadow Trapper",
+        "base_attack": {
+            "name": "Snare Shot",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Illegal Trap",
+            "type": 1,
+            "hits": 1
+        }
+    },
+    "20": {
+        "name": "Bureaucrat Shadow",
+        "base_attack": {
+            "name": "Red Tape",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Policy Reversal",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "21": {
+        "name": "Loophole Phantom",
+        "base_attack": {
+            "name": "Legal Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Enforcement Void",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "22": {
+        "name": "The Materialism Overlord",
+        "base_attack": {
+            "name": "Consumption Wave",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Greed Incarnate",
+            "type": 2,
+            "hits": 3
+        }
+    },
+    "23": {
+        "name": "Tiger Fang Collector",
+        "base_attack": {
+            "name": "Trophy Slash",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Trade Network",
+            "type": 1,
+            "hits": 2
+        }
+    },
+    "24": {
+        "name": "Metropolis Giant",
+        "base_attack": {
+            "name": "Urban Crush",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Population Pressure",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "25": {
+        "name": "Palm Oil Titan",
+        "base_attack": {
+            "name": "Plantation Strike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Monoculture Devastation",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "26": {
+        "name": "Skin Trade Demon",
+        "base_attack": {
+            "name": "Cruel Harvest",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Medicine Demand",
+            "type": 1,
+            "hits": 2
+        }
+    },
+    "27": {
+        "name": "Bleached Horror",
+        "base_attack": {
+            "name": "Heat Wave",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Acidic Surge",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "28": {
+        "name": "Thermal Phantom",
+        "base_attack": {
+            "name": "Temperature Spike",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Ocean Warming",
+            "type": 2,
+            "hits": 1
+        }
+    },
+    "29": {
+        "name": "The Coral Reaper",
+        "base_attack": {
+            "name": "Reef Decay",
+            "type": 0,
+            "hits": 1
+        },
+        "skill_attack": {
+            "name": "Mass Bleaching Event",
+            "type": 2,
+            "hits": 3
+        }
+    }
+}

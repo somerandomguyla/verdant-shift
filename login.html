@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title>Sign up or log in - Verdant Shift</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <center>
+      <h1>
+        Welcome to Verdant Shift
+      </h1>
+      <form action="/createaccount">
+        <label for="uBox">Username</label><br>
+        <input type="text" id="uBox" name="uBox" placeholder="Username..."><br><br>
+        <input type="submit" value="Create New Session" class="buttonLike mini-button">
+      </form>
+      <small><b>IMPORTANT:</b> Clearing cookies will log you out, and recovery is not available unless you have your session ID saved.</small><hr>
+      <h4>Or...</h4>
+      <button onclick="window.location = '/recover'" class="mini-button">Log in using Instant Login</button>  <button onclick="manualSession()" class="mini-button">Enter session ID manually</button>
+    </center>
+  </body>
+  <script>
+    function manualSession() {
+      const sessionID = window.prompt("Enter your desired session ID.")
+      if (!sessionID) return;
+      document.cookie = `instantLogin=${sessionID}; secure;`
+      window.location = "/recover"
+    }
+  </script>
+</html>

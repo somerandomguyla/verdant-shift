@@ -1,0 +1,571 @@
+<html>
+  <head>
+    <title>Playing Verdant Shift</title>
+    <style>
+      .modal {
+        display: none;
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgb(0,0,0);
+        background-color: rgba(0,0,0,0.4);
+      }
+
+      .modal-content {
+        background-color: #fefefe;
+        margin: 15% auto;
+        padding: 20px;
+        border: 1px solid #888;
+        width: 80%;
+      }
+
+      .close {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+      }
+
+      .close:hover,
+      .close:focus {
+        color: black;
+        text-decoration: none;
+        cursor: pointer;
+      }
+
+      #heroes-boxsection {
+        display: flex;
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .hero-box {
+        border: 2px solid #415a77;
+        border-radius: 12px;
+        padding: 15px;
+        width: 300px;
+        box-shadow: 0 0 10px rgba(144, 224, 239, 0.2);
+        transition: transform 0.2s;
+      }
+
+      .hero-box:hover {
+        transform: scale(1.03);
+      }
+
+      .hero-img {
+        width: 100%;
+        border-radius: 8px;
+        margin-bottom: 10px;
+      }
+
+      .hero-name {
+        font-size: 1.2em;
+        margin: 8px 0;
+      }
+
+      .hero-level {
+        font-size: 0.9em;
+      }
+
+      .hero-stars {
+        font-size: 0.9em;
+      }
+    </style>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="icon" type="image/x-icon" href="/static/favicon.jpg">
+  </head>
+  <body>
+      <div id="section-main">
+        <center>
+      <h1>Verdant Shift</h1>
+      <h5 class="coinDisplay">Loading...</h5>
+      <button onclick="screenUpdate('campaign', 'section-campaign')" id="campaign">Campaign</button>
+      <!--<br>
+      <br>
+      <button onclick="screenUpdate('learningsets', 'section-learningsets')" id="learningsets">Learning Sets</button>-->
+      <br>
+      <br>
+      <button onclick="screenUpdate('heroes', 'section-heroes')" id="heroes">Heroes</button>
+      <br>
+      <br>
+      <button onclick="screenUpdate('summoning', 'section-summoning')" id="summoning">Summoning</button>
+          <br><br>
+          <button onclick="window.location = '/'" class="mini-button">Main Menu</button>
+        </center>
+      </div>
+      <div id="section-campaign" style="display: none;">
+        <button onclick="screenUpdate('main', 'section-main')" id="main">Back</button>
+        <center>
+        <h1>Campaign</h1>
+            <label for="stage">Select Stage</label>
+        <select id="stageselect" name="stageselect" onchange="updateDropdowns(false)">
+        </select>
+            <br>
+            <label class="campaignlevel">Select Level</label>
+            <select class="campaignlevel" id="levelselect">
+            </select>
+          <br><button onclick="beginCampaign()">Go</button>
+        </center>
+      </div>
+      <div id="section-learningsets" style="display: none;">
+        <button onclick="screenUpdate('ls-back', 'section-main')" id="ls-back">Back</button>
+        <center>
+          <h1>Learning Sets</h1>
+          <hr>
+          <h3>Featured</h3>
+          <div id="ls-featured">
+            
+          </div>
+        </center>
+      </div>
+      <div id="section-heroes" style="display:none;">
+        <button onclick="screenUpdate('hero-back', 'section-main')" id="hero-back">Back</button>
+        <center>
+        <h1>Heroes</h1>
+        <hr>
+        <div id="heroes-boxsection">
+        </div>
+        </center>
+      </div>
+      <div id="section-summoning" style="display:none;">
+        <button onclick="screenUpdate('summoning-back', 'section-main')" id='summoning-back' class="mini-button">Back</button>
+        <center>
+        <h1>Hero Summoning</h1>
+        <hr>
+        <p>Select a shard to summon a hero.</p>
+        <button onclick="summonMenu('gray')" id="summon-grayShard">Gray Shard</button>  <button onclick="summonMenu('blue')" id="summon-blueShard">Blue Shard</button>  <button onclick="summonMenu('purple')" id="summon-purpleShard">Purple Shard</button>  <button onclick="summonMenu('gold')" id="summon-goldShard">Gold Shard</button>  <button onclick="summonMenu('verdant')" id="summon-verdantShard">Verdant Shard</button>
+          <hr>
+          <h2>Buy More</h2>
+          <h5 class="coinDisplay">Loading...</h5>
+          <button onclick="openShop('gray')" class="mini-button">Gray Shard (15,000)</button>  <button onclick="openShop('blue')" class="mini-button">Blue Shard (75,000)</button>  <button onclick="openShop('purple')" class="mini-button">Purple Shard (150,000)</button>  <button onclick="openShop('gold')" class="mini-button">Gold Shard (250,000)</button>  <button onclick="openShop('verdant')" class="mini-button">Verdant Shard (500,000)</button>  
+        </center>
+      </div>
+    <div id="heroDisplay" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="close-heromodal" style="cursor:pointer; text-align: right;">&times;</span>
+        <center>
+        <div id="heromodal-content">
+          <h1>Error: Failed to display content</h1>
+          <p>Try again later or contact support.</p>
+      </div>
+        </center>
+    </div>
+    </div>
+      <div id="summonDisplay" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span id="close-summonmodal" style="cursor:pointer; text-align: right;">&times;</span>
+          <center>
+          <div id="summonmodal-content">
+            <h1>Error: Failed to display content</h1>
+            <p>Try again later or contact support.</p>
+        </div>
+          </center>
+      </div>
+      </div>
+    <div id="levelupDisplay" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="close-levelupmodal" style="cursor:pointer; text-align: right;">&times;</span>
+        <center>
+        <div id="levelupmodal-content">
+          <h1>Error: Failed to display content</h1>
+          <p>Try again later or contact support.</p>
+      </div>
+        </center>
+    </div>
+    </div>
+    <div id="shopDisplay" class="modal" style="display:none;">
+      <div class="modal-content">
+        <span id="close-shopmodal" style="cursor:pointer; text-align: right;">&times;</span>
+        <center>
+        <div id="shopmodal-content">
+          <h1>Error: Failed to display content</h1>
+          <p>Try again later or contact support.</p>
+      </div>
+        </center>
+    </div>
+    </div>
+    <div id="postsummonDisplay" class="modal" style="display:none;">
+      <div class="modal-content">
+        <button onclick="location.reload()">Close</button>
+        <center>
+        <div id="postsummonmodal-content">
+          <h1>Error: Failed to display content</h1>
+          <p>Try again later or contact support.</p>
+      </div>
+        </center>
+    </div>
+    </div>
+    <div id="loadingScreen" class="modal">
+      <div class="modal-content">
+        <center>
+          <h2>One moment please...</h2>
+          <img src="/static/loading.gif">
+        </center>
+      </div>
+    </div>
+  </body>
+  <!-- Pre-load loading gif -->
+  <img src="/static/loading.gif" style="display: none;">
+  <script>
+    let o
+    //Handle back button
+    let currentOpen = "section-main"
+    let pastOpen = "section-main"
+    //Handle campaign updates
+    const levelSelect = document.getElementById("levelselect")
+    const stageSelect = document.getElementById("stageselect")
+    let campaignResult
+    //Handle menu updates
+    let menuResult
+    const loadingScreen = document.getElementById("loadingScreen")
+    const LSfeatured = document.getElementById("ls-featured")
+    //Handle summoning updates/buttons
+    const summonButtons = {gray: document.getElementById("summon-grayShard"), blue: document.getElementById("summon-blueShard"), purple: document.getElementById("summon-purpleShard"), gold: document.getElementById("summon-goldShard"), verdant: document.getElementById("summon-verdantShard")}
+    const summonOrder = ["gray", "blue", "purple", "gold", "verdant"]
+
+    function updateLoad(onoff) {
+      if (onoff == 0) {
+        loadingScreen.style.display = "block"
+      } else {
+        loadingScreen.style.display = "none"
+      }
+    }
+    
+   async function screenUpdate(id, datapoint) {
+   if (id && datapoint) {
+     o = document.getElementById(id).innerHTML
+     document.getElementById(id).innerHTML = "<img src='/static/loading.gif'>"
+     document.getElementById(currentOpen).style.display = "none";
+     document.getElementById(datapoint).style.display = "block";
+     pastOpen = currentOpen
+     currentOpen = datapoint
+     document.getElementById(id).innerHTML = o
+      history.pushState({}, null, datapoint.slice(8, datapoint.length))
+   } else {
+     window.alert("Unable to load page. Try again later.")
+   }
+  }
+
+  function beginCampaign() {
+    window.location = `/campaign/${stageSelect.value}/${levelSelect.value}`
+  }
+
+    function removeOptions(selectElement) {
+       var i, L = selectElement.options.length - 1;
+       for(i = L; i >= 0; i--) {
+          selectElement.remove(i);
+       }
+    }
+
+    function updateDropdowns(doMain) {
+        removeOptions(levelSelect);
+        if (doMain) {
+        removeOptions(stageSelect)
+          let counter = 1
+        campaignResult[0].forEach(optionText => {
+          const option = document.createElement("option");
+          option.textContent = optionText[1].name;
+        option.value = String(counter)
+          stageSelect.appendChild(option);
+          counter++
+        });
+        }
+        Object.entries(campaignResult[0][stageSelect.selectedIndex][1]).forEach(([key, value]) => {
+          if (key === "name" || key > campaignResult[1]) return;
+
+          const option = document.createElement("option");
+          option.value = key;
+          option.textContent = value;
+          levelSelect.appendChild(option);
+        });
+    }
+
+    document.getElementById("close-heromodal").onclick = function() {
+document.getElementById("heroDisplay").style.display = "none";
+    }
+
+    document.getElementById("close-summonmodal").onclick = function() {
+    document.getElementById("summonDisplay").style.display = "none";
+        }
+
+    document.getElementById("close-levelupmodal").onclick = function() {
+    document.getElementById("levelupDisplay").style.display = "none";
+        }
+
+    document.getElementById("close-shopmodal").onclick = function() {
+    document.getElementById("shopDisplay").style.display = "none";
+        }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("heroDisplay")) {
+        document.getElementById("heroDisplay").style.display = "none";
+      }
+      if (event.target == document.getElementById("levelupDisplay")) {
+        document.getElementById("levelupDisplay").style.display = "none";
+      }
+      if (event.target == document.getElementById("summonDisplay")) {
+        document.getElementById("summonDisplay").style.display = "none";
+      }
+      if (event.target == document.getElementById("shopDisplay")) {
+        document.getElementById("shopDisplay").style.display = "none";
+      }
+    }
+
+    function runUpgradeChecks(isSkill, num) {
+      let upgradePrice = 1000
+      if (isSkill) upgradePrice = upgradePrice*2
+      if (menuResult.coins >= num*upgradePrice) {
+        return true
+      } else {
+        return false
+      }
+    }
+
+    let lastOpenedHero = false;
+
+    async function levelUp(doSkill, num) {
+      lastOpenedHero = lastOpenedHero.toString()
+      if (lastOpenedHero) { //fixes errors with lastOpenHero as 0 registering as false
+      if (!runUpgradeChecks(doSkill, num)) return window.alert("You don't have enough coins.")
+      const levelPost = await fetch('/levelinghandler', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({hero: lastOpenedHero, num: parseInt(num), isSkill: doSkill})
+      })
+        if (!levelPost.ok) {
+          window.alert("An error occurred.")
+          console.log("Error in level upgrade")
+          console.log(levelPost)
+          return false
+        }
+        const returnData = await levelPost.json()
+        if (!returnData.success) {
+          window.alert("Error: server denied level upgrade.")
+          console.log(returnData)
+          console.log(levelPost)
+          return false
+        }
+        console.log(returnData)
+        return true;
+      } else {
+        console.log("Upgrade checks failed")
+        return false
+      }
+    }
+
+    async function levelupHandler(isSkill, num) {
+      updateLoad(0)
+      const aa = await levelUp(isSkill, num)
+      if (!aa) {
+        console.log("fail")
+      } else {
+        let cost = 1000*num
+        if (isSkill) cost = cost*2
+        window.alert(`Success! You now have ${menuResult.coins - cost} coins.`)
+        location.reload()
+      }
+      updateLoad(1)
+    }
+
+    let maxHeroes = 0
+
+    function openLevelUpDisplay(id, isSkill, event) {
+      lastOpenedHero = id
+      console.log(lastOpenedHero)
+      let cost = 1000
+      let e = ""
+      if (isSkill) {cost = cost*2; e = " Skill"}
+      maxHeroes = Math.floor(menuResult.coins / cost)
+      document.getElementById("levelupDisplay").style.display = "block"
+      document.getElementById("levelupmodal-content").innerHTML = `<h1>${menuResult.heroes[menuResult.heroes.findIndex(hero => hero.id == id)].name}: Upgrade${e} Level</h1># of Levels: <input type="number" id="levelupAmount" min=1 max=${maxHeroes}>/${maxHeroes}<br><br><button onclick="levelupHandler(${isSkill}, document.getElementById('levelupAmount').value)">Level Up</button><br><br><small>Each${e.toLowerCase()} level costs ${cost} coins. As you level up, each level changes stats less and less.</small>`
+    }
+
+    function openDisplay(heroname) {
+      const toDisplay = menuResult.heroes.find(obj => obj["name"] === heroname);
+      console.log(toDisplay)
+      if (toDisplay) {
+        lastOpenedHero = toDisplay.id
+        document.getElementById("heroDisplay").style.display="block"
+        document.getElementById("heromodal-content").innerHTML = `<h1>${toDisplay.name}</h1><h3>${toDisplay.stars} Star(s)</h3><h3>Level ${toDisplay.level}, Skill Level ${toDisplay.skill_level}</h3><button onclick="openLevelUpDisplay(${toDisplay.id}, false)" class="mini-button">Upgrade Level</button>  <button onclick="openLevelUpDisplay(${toDisplay.id}, true)" class="mini-button">Upgrade Skill Level</button>`    
+      } else {
+        window.alert("error")
+      }
+    }
+
+    function updateLS() {
+      if (menuResult.learningsets) {
+        LSfeatured.innerHTML = "Coming soon!"
+      } else {
+        LSfeatured.innerHTML = "An error occurred while fetching featured content. Try again later or contact support."
+      }
+    }
+
+    let heroBoxesCreated = 0
+    function updateHeroes() {
+      heroBoxesCreated = 0
+      document.getElementById("heroes-boxsection").innerHTML = ""
+      
+      menuResult.heroes.forEach(hero => {
+      const heroBox = document.createElement("div");
+        heroBox.onclick = function() {
+          openDisplay(hero.name)
+        };
+      heroBox.className = "hero-box";
+
+      heroBox.innerHTML = `
+        <div class="hero-name">${hero.name}</div>
+        <div class="hero-stars">${hero.stars} Star(s)</div>
+        <div class="hero-level">Level ${hero.level}, Skill Level ${hero.skill_level}</div><br><button onclick="openLevelUpDisplay(${hero.id}, false)" class="mini-button">Upgrade Level</button>  <button onclick="openLevelUpDisplay(${hero.id}, true)" class="mini-button">Upgrade Skill Level</button>
+      `;
+
+      document.getElementById("heroes-boxsection").appendChild(heroBox);
+        heroBoxesCreated++
+      });
+    }
+
+    function viewCharacter(id) {
+      window.open("/viewhero/" + id, '_blank');
+    }
+
+    function updateSummon() {
+      console.log("Updating summoning data, please wait...")
+      Object.keys(summonButtons).forEach(shard => {
+        summonButtons[shard].innerHTML = shard.charAt(0).toUpperCase() + shard.slice(1) + " Shard (" + menuResult.summoning[0][shard] + ")"
+      })
+    }
+
+    async function newSummon(shard, amount) {
+      if (!menuResult.summoning[0][shard]) {
+        window.alert("An error occurred. You may not have any shards of this type to open.")
+      }
+      amount = Number(amount);
+      if (isNaN(amount) || !Number.isInteger(amount) || amount > menuResult.summoning[0][shard]) {
+          window.alert("This number is not valid. Make sure you have enough shards, and that the number is an integer.");
+        return;
+      }
+      const toSend = JSON.stringify({shard: shard, amount: amount})
+      updateLoad(0)
+      const summonrequest = await fetch('/summon', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: toSend
+      })
+      updateLoad(1)
+      if (!summonrequest.ok) {
+        throw new Error(`Failed to summon hero(es): ${summonrequest.status} ${summonrequest.statusText}`)
+        window.alert("Failed to summon hero(es). Try again later or contact support.")
+        return
+      }
+      const summoned = await summonrequest.json()
+      if (summoned.ok) {
+        console.log(summoned.result)
+        document.getElementById("postsummonDisplay").style.display = "block"
+        document.getElementById("postsummonmodal-content").innerHTML = `<h1>Successful Summon!</h1><p>You summoned the following heroes:</p>`
+        summoned.result.forEach(summon => {
+          console.log(summon)
+          document.getElementById("postsummonmodal-content").innerHTML = document.getElementById("postsummonmodal-content").innerHTML + `${summon.name}, ${summon.base_stars} Star(s) <button onclick="viewCharacter(${summon.id})" class="mini-button">View Stats</button><br><br>`
+        })
+        document.getElementById("postsummonmodal-content").innerHTML = document.getElementById("postsummonmodal-content").innerHTML + `Total coins received: ${summoned.coins}`
+      } else {
+        window.alert("Failed to summon.")
+        console.log(summoned.error)
+      }
+    }
+    
+let selectedShard = ""
+    function summonMenu(shard) {
+      const location = summonOrder.indexOf(shard)
+      if (location == -1) return console.error("Error: no shard selected");
+      if (!menuResult.summoning[0][shard]) return window.alert("You do not have any of this type of shard.")
+      selectedShard = shard
+      document.getElementById("summonmodal-content").innerHTML = `<h3>Open ${shard[0].toUpperCase()}${shard.slice(1)} Shards</h3>Amount: <input type="number" id="summonAmount" min=1 max=${menuResult.summoning[0][shard]}>/${menuResult.summoning[0][shard]}<br><br><button onclick="newSummon('${selectedShard}', document.getElementById('summonAmount').value)">Summon</button>`
+document.getElementById("summonDisplay").style.display = "block";
+    }
+
+    let selectedShopShard = ""
+    const shopPrices = [15000, 75000, 150000, 250000, 500000]
+
+    async function shopPurchaseHandler(shard, num) {
+      const location = summonOrder.indexOf(shard)
+      if (location === -1) return window.alert("An error occurred.")
+      updateLoad(0)
+      const price = shopPrices[location]
+      const maxPurchase = Math.floor(menuResult.coins / price)
+      if (num > maxPurchase) return window.alert(`You don't have enough coins to buy ${num} of this product.`)
+      const purchaserequest = await fetch('/shophandler', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({shard: shard, amount: parseInt(num)})
+      })
+      updateLoad(1)
+      if (!purchaserequest.ok) {
+        window.alert("An unknown error occurred in your purchase.")
+        return
+      }
+      const purchaseData = await purchaserequest.json()
+      if (purchaseData.success) {
+        window.alert(`You successfully bought ${num} of this product. You now have ${menuResult.coins - (price*num)} coins remaining.`)
+      } else {
+        window.alert("The server denied this purchase request. Try again later.")
+      }
+      window.location.reload()
+    }
+    
+        function openShop(shard) {
+          const location = summonOrder.indexOf(shard)
+          if (location == -1) return console.error("Error: no shard selected");
+          const price = shopPrices[location]
+          const maxPurchase = Math.floor(menuResult.coins / price)
+          if (maxPurchase === 0) return window.alert("You don't have enough coins to buy this product.")
+          selectedShopShard = shard
+          document.getElementById("shopmodal-content").innerHTML = `<h3>Buy ${shard[0].toUpperCase()}${shard.slice(1)} Shards</h3>Amount: <input type="number" id="shopAmount" min=1 max=${maxPurchase}>/${maxPurchase}<br><br><button onclick="shopPurchaseHandler('${selectedShopShard}', document.getElementById('shopAmount').value)">Buy</button>`
+    document.getElementById("shopDisplay").style.display = "block";
+        }
+
+    async function getMenuData() {
+        try {
+                const campaign = await fetch("/campaigndata");
+                campaignResult = await campaign.json();
+            console.log(campaignResult)
+            updateDropdowns(true)
+          const menuData = await fetch("/menudata");
+          menuResult = await menuData.json()
+          updateLS()
+          updateHeroes()
+          updateSummon()
+          document.querySelectorAll(".coinDisplay").forEach(el => {
+            el.innerHTML = `You have ${menuResult.coins} coins.`;
+          });
+            } catch (error) {
+                window.alert("Error fetching menu data. Some menu pages may not work. Reload or try again later.")
+              console.error(error)
+    
+            }
+      updateLoad(1)
+    }
+    updateLoad(0)
+    getMenuData()
+
+  const immediateLoad = "<%- immediateLoad %>"
+  const immediateLoadID = "<%- immediateLoadID %>"
+  if (immediateLoad && /^[a-zA-Z0-9_-]+$/.test(immediateLoad) && /^[a-zA-Z0-9_-]+$/.test(immediateLoadID)) {
+  screenUpdate(immediateLoadID, immediateLoad)
+  }
+
+    window.addEventListener("popstate", function(event) {
+      screenUpdate("main", pastOpen)
+    });
+  </script>
+</html>
