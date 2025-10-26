@@ -1,0 +1,54 @@
+<html>
+  <head>
+    <title>Extras - Verdant Shift</title>
+    <link rel="stylesheet" href="/static/style.css">
+  </head>
+  <body>
+    <center>
+      <h1>Main Menu - Extra Content</h1>
+      <button onclick="document.getElementById('helpMenu').style.display = 'block'" class="special-button">Help</button><br><br>
+      <button onclick="window.location = '/credits'" class="mini-button">Credits</button><br><br>
+      <button onclick="window.location = '/source'" class="mini-button">Source Code</button><br><br>
+      <button onclick="window.location = '/'" class="mini-button special-button">Main Menu</button>
+      <div id="helpMenu" class="modal" style="display:none;">
+        <div class="modal-content">
+          <span id="close-helpmodal" style="cursor:pointer; text-align: right;">&times;</span>
+          <center>
+            <div id="helpModal-content">
+              <h1>Help Menu</h1>
+              <button onclick="helpMenu(1)" class="mini-button">I want to report an issue</button>  <button onclick="helpMenu(2)" class="mini-button">I need help playing the game</button>
+            </div>
+          </center>
+      </div>
+      </div>
+    </center>
+  </body>
+  <script>
+    function helpMenu(location) {
+      if (location == 0) {
+        document.getElementById("helpModal-content").innerHTML = `
+        <h1>Help Menu</h1>
+        <button onclick="helpMenu(1)" class="mini-button">I want to report an issue</button>  <button onclick="helpMenu(2)" class="mini-button">I need help playing the game</button>
+        `
+      } else if (location == 1) {
+        document.getElementById("helpModal-content").innerHTML = `
+        <br><button onclick="helpMenu(0)" class="mini-button">Back</button><h1>Bug Reporting</h1>Bugs can be reported to the issues page on Verdant Shift's GitHub.<br><br><button onclick="window.location = 'https://github.com/somerandomguyla/verdant-shift/issues'" class="mini-button special-button">Report an Issue</button>`
+      } else if (location == 2) {
+        document.getElementById("helpModal-content").innerHTML = `
+        <br><button onclick="helpMenu(0)" class="mini-button">Back</button><h1>Help Playing Verdant Shift</h1>Please visit the docs on Verdant Shift's GitHub to learn more.<br><br><button onclick="window.location = 'https://github.com/somerandomguyla/verdant-shift?tab=readme-ov-file#verdant-shift'" class="mini-button special-button">Get Help</button>`
+      } else {
+        window.alert("error")
+      }
+    }
+
+    document.getElementById("close-helpmodal").onclick = function() {
+      document.getElementById("helpMenu").style.display = "none";
+        }
+
+    window.onclick = function(event) {
+      if (event.target == document.getElementById("helpMenu")) {
+        document.getElementById("helpMenu").style.display = "none";
+      }
+    }
+  </script>
+</html>

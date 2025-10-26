@@ -916,8 +916,15 @@ app.get("/source", (req, res) => {
   res.redirect("https://github.com/somerandomguyla/verdant-shift")
 })
 
+app.get("/extras", async (req, res) => {
+  const user = await getUserInfo(req)
+  const doRun = await runChecks(req, res, user)
+  if (!doRun) return;
+  res.sendFile(__dirname + "/extras.html")
+})
+
 app.get("/favicon.ico", (req, res) => {
-  res.sendFile("/static/favicon.jpg")
+  res.sendFile(__dirname + "/static/favicon.jpg")
 })
 
 app.use((req, res, next) => {

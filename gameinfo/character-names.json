@@ -36,13 +36,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -60,13 +60,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -84,13 +84,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -108,13 +108,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -132,13 +132,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -156,13 +156,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -180,13 +180,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -204,13 +204,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
@@ -228,13 +228,13 @@
     },
     "base_attack": {
       "base_dmg": 40,
-      "name": "test base attack",
+      "name": "Base Attack",
       "type": 0,
       "hits": 1
     },
     "skill_attack": {
       "base_dmg": 115,
-      "name": "test skill attack",
+      "name": "Skill Attack",
       "type": 1,
       "hits": 2
     }
