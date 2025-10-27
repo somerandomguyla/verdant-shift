@@ -277,7 +277,7 @@
         });
         }
         Object.entries(campaignResult[0][stageSelect.selectedIndex][1]).forEach(([key, value]) => {
-          if (key === "name" || key > campaignResult[1]) return;
+          if (key === "name" || key > campaignResult[1] && stageSelect.selectedIndex + 1 == campaignResult[0].length) return;
 
           const option = document.createElement("option");
           option.value = key;
