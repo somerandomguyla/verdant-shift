@@ -70,7 +70,7 @@
               <center>
                 <div id="statmodal-content">
                 <h1>Error: Failed to display content</h1>
-                <p>Try again later or contact support.</p>
+                <p>Try again later or report this issue in the help menu.</p>
                 </div>
               </center>
           </div>
@@ -149,7 +149,7 @@
                 goScreenDetails.innerHTML = `You defeated all enemies and received ${latestAttack.response.coinReward} coins.`
                 goScreenFTB.style.display = "block"
                 if (!latestAttack.response.progressed) {
-                  window.alert("The server reported a failed progression in campaign. Please check manually and contact support if progression failed.")
+                  window.alert("The server reported a failed progression in campaign. Please check manually and report this issue in the help menu.")
                 }
               } else {
                 goScreenWinLoss.innerHTML = "You Lost..."
@@ -244,15 +244,16 @@
                 gameHeroes[clientData[0]].skillCD = 3
               }
               if (serverData.response.isDead) {
-                gameHeroes[clientData[0]].stats.hp = 0
-                gameHeroes[clientData[0]].alive = false
+                gameHeroes[serverData.response.target].stats.hp = 0
+                gameHeroes[serverData.response.target].alive = false
               } else {
                 if (!serverData.response.gameOver) {
-                gameHeroes[clientData[0]].stats.hp = gameHeroes[clientData[0]].stats.hp - serverData.response.damage
+                  gameHeroes[serverData.response.target].stats.hp = gameHeroes[serverData.response.target].stats.hp - serverData.response.damage
                 }
               }
               if (serverData.response.isSkill) {
-                gameEnemies[clientData[1]].skillCD = 3
+                console.log(gameEnemies[serverData.response.aggressor])
+                gameEnemies[serverData.response.aggressor].skillCD = 3
               }
               handleSkillCD()
               populateGameHeroes()
@@ -287,7 +288,7 @@
               updateHealths(turnData, cdata)
               attackDetails(turnData, cdata)
               } else {
-                window.alert(`Attack failed. Your game has been forfeited automatically and you received ${cdata.coinReward} coins as compensation.`)
+                window.alert(`Attack failed. Your game has been forfeited automatically. If this issue persists, report it in the help menu.`)
                 await forfeit()
                 window.location = "/play/campaign"
               }
@@ -348,11 +349,15 @@
                  window.alert("An error occurred while attempting to forfeit.")
                 throw new Error(`Failed to forfeit.`)
                 console.log(campaignForfeit)
+                location.reload()
                 return
               }
               const cdata = await campaignForfeit.json()
               if (cdata.success) {
                 window.alert(`Successfully forfeited the game. You gained ${cdata.coins} coins.`)
+                location.reload()
+              } else {
+                window.alert("An unknown error occurred while attempting to forfeit.")
                 location.reload()
               }
             }

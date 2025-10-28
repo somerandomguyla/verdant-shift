@@ -143,7 +143,7 @@ async function runChecks(req, res, user) {
         res.redirect("/createaccount");
       } else {
         res.send(
-          "Unable to reach account database. Try again later or contact support.",
+          "Unable to reach account database. Try again later.",
         );
       }
       return false;
@@ -171,7 +171,7 @@ async function getAccount(req, res, user) {
       return false;
     } else {
       res.send(
-        "Unable to reach account database. Try again later or contact support.",
+        "Unable to reach account database. Try again later.",
       );
       return false;
     }
@@ -412,6 +412,7 @@ class campaignInstance {
     const trueDamage = Math.floor(damage[0])
     this.heroes[targetRealIndex].stats.hp = this.heroes[targetRealIndex].stats.hp - trueDamage
     let hasDied = false
+    console.log(this.heroes[targetRealIndex].stats.hp)
     if (this.heroes[targetRealIndex].stats.hp <= 0) {
       this.heroes[targetRealIndex].alive = false;
       hasDied = true
@@ -607,7 +608,7 @@ app.get("/campaigndata", async (req, res) => {
   }
   const userData = JSON.parse(await getFile("account-" + user.id + ".json"))
   if (!userData) {
-    res.send("Error: could not get user info. Try again later or contact support.")
+    res.send("Error: could not get user info. Try again later.")
     return
   }
   let toSend = Object.entries(campaignNames)
@@ -623,7 +624,7 @@ app.get('/menudata', async (req, res) => {
   }
   const userData = JSON.parse(await getFile("account-" + user.id + ".json"))
   if (!userData) {
-    res.send("Error: could not get user info. Try again later or contact support.")
+    res.send("Error: could not get user info. Try again later.")
     return
   }
   res.send({"heroes": userData.characters, "learningsets": null, "summoning": [userData.summonShards, summonPool], "coins": userData.coins})
@@ -758,13 +759,14 @@ app.get("/campaign/:stage/:level", async (req, res) => {
         res.status(400).send({gameStart: false, error: "You already have an active game."})
       } else {
     const data = new campaignInstance(user.id, info.stage, info.level, realHeroes)
-        //bugfix to prevent "undefined" enemy names
+        //bugfix to prevent enemy name undefined
         let gameEnemies = data.enemies.map((enemy, index) => {
           return {
             id: enemy.id,
             name: enemy.name,
             stats: enemy.stats,
-            difficulty: campaignLevels[info.stage][info.level].enemies[index].difficulty
+            difficulty: campaignLevels[info.stage][info.level].enemies[index].difficulty,
+            level: campaignLevels[info.stage][info.level].enemies[index].level
           }
         })
         let gameHeroes = []
@@ -816,7 +818,7 @@ app.post('/campaignhandler', async (req, res) => {
         responseData.clientWin = gameOver[1]
         responseData.coinReward = activeGames[activeGames.findIndex(game => game.user === user.id)].coinReward
         activeGames.splice(activeGames.findIndex(game => game.user === user.id), 1)
-        await giveCoins(user.id, coinReward)
+        await giveCoins(user.id, responseData.coinReward)
         res.send({success: true, attack: attackData, response: responseData})
       } else {
       res.send({success: true, attack: attackData, response: responseData})

@@ -301,7 +301,7 @@
                 "help": "https://www.asianelephantprojects.com/donate/"
             },
             "enemies": [{"id": 3, "difficulty": 2, "level": 1}, {"id": 26, "difficulty": 2, "level": 1}],
-            "maxCharacters": 4
+            "maxCharacters": 2
         },
         "5": {
             "name": "Bleached Coral Reefs",
@@ -312,7 +312,7 @@
                 "help": "https://www.coral.org/donate/"
             },
             "enemies": [{"id": 27, "difficulty": 3, "level": 1}, {"id": 28, "difficulty": 2, "level": 1}],
-            "maxCharacters": 4
+            "maxCharacters": 3
         },
         "6": {
             "name": "Ocean Plastics #2",
@@ -323,7 +323,7 @@
                 "help": "https://theoceancleanup.com/donate/"
             },
             "enemies": [{"id": 7, "difficulty": 3, "level": 1}, {"id": 8, "difficulty": 3, "level": 1}],
-            "maxCharacters": 4
+            "maxCharacters": 3
         },
         "7": {
             "name": "Boss: The Coral Reaper",
@@ -334,9 +334,9 @@
                 "help": "https://www.coraltriangleinitiative.org/get-involved"
             },
             "enemies": [
-                {"id": 29, "difficulty": 3, "level": 1},
-                {"id": 27, "difficulty": 3, "level": 1},
-                {"id": 7, "difficulty": 2, "level": 1}
+                {"id": 29, "difficulty": 4, "level": 1},
+                {"id": 27, "difficulty": 4, "level": 1},
+                {"id": 7, "difficulty": 4, "level": 1}
             ],
             "maxCharacters": 4
         }
