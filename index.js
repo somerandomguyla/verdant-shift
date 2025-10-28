@@ -82,7 +82,7 @@ async function AccountCreate(req, res, user) {
     console.log(user);
     console.log(error);
   } else {
-    res.redirect("/");
+    res.redirect("/welcome");
   }
 }
 
@@ -926,6 +926,13 @@ app.get("/extras", async (req, res) => {
   const doRun = await runChecks(req, res, user)
   if (!doRun) return;
   res.sendFile(__dirname + "/extras.html")
+})
+
+app.get("/welcome", async (req, res) => {
+  const user = await getUserInfo(req)
+  const doRun = await runChecks(req, res, user)
+  if (!doRun) return;
+  res.sendFile(__dirname + "/welcome.html")
 })
 
 app.get("/favicon.ico", (req, res) => {
