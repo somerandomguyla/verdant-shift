@@ -43,8 +43,6 @@
                 </div>
               </div>
                 <hr>
-                <div id="forfeitSection"><button onclick="forfeit()">Forfeit</button><br>
-                <hr></div>
               </div>
               <div id="gameSection" style="">
                 <h3>Your Heroes</h3>
@@ -53,6 +51,8 @@
                 <h3>Enemies</h3>
               <div id="enemies" class="characterSection" style="">
               </div>
+                <hr>
+                <div id="forfeitSection"><button onclick="forfeitRequest()" class="mini-button">Forfeit</button></div><br>
               </div>
             </center>
           </div>
@@ -189,6 +189,7 @@
               id = "attackDetails-1"
               }
               confirmButton.id = id
+              confirmButton.classList.add("special-button")
               confirmButton.onclick = () => attackDetailHandler(id)
               tcButtons.appendChild(confirmButton)
             }
@@ -205,6 +206,7 @@
                 tcButtons.innerHTML = ""
                 const confirmButton = document.createElement("button")
                 confirmButton.innerHTML = "Finish"
+                confirmButton.classList.add("special-button")
                 const id = "attackDetails-2"
                 confirmButton.id = id
                 confirmButton.onclick = () => attackDetailHandler(id)
@@ -355,6 +357,12 @@
               }
             }
 
+            function forfeitRequest() {
+              const confirm = window.confirm("Are you sure you want to forfeit this battle?")
+              if (!confirm) return;
+              forfeit()
+            }
+
             function populateEnemies() {
               viewEnemies.innerHTML = ""
               gameInfo.enemies.forEach(enemy => {
@@ -382,6 +390,7 @@
                   if (hero.alive) {
                   const tButton = document.createElement("button")
                   tButton.innerHTML = hero.name
+                  tButton.classList.add("special-button")
                   const id = "tButton-" + turnButtonsCreated
                   tButton.id = id
                   tButton.onclick = () => turnMenuHandler(id)
@@ -394,6 +403,7 @@
                   if (enemy.alive) {
                   const tButton = document.createElement("button")
                   tButton.innerHTML = enemy.name
+                  tButton.classList.add("special-button")
                   const id = "tButton-" + turnButtonsCreated
                   tButton.id = id
                   tButton.onclick = () => turnMenuHandler(id)
@@ -405,12 +415,14 @@
                 const tButton = document.createElement("button")
                 tButton.innerHTML = base_attack
                 const id = "tButtonBase"
+                tButton.classList.add("special-button")
                 tButton.id = id
                 tButton.onclick = () => turnMenuHandler(id)
                 tcButtons.appendChild(tButton)
                 if (skill_attack) {
                   const tButton2 = document.createElement("button")
                   tButton2.innerHTML = skill_attack
+                  tButton2.classList.add("special-button")
                   const id2 = "tButtonSkill"
                   tButton2.id = id2
                   tButton2.onclick = () => turnMenuHandler(id2)

@@ -85,7 +85,7 @@
         <center>
       <h1>Verdant Shift</h1>
       <h5 class="coinDisplay">Loading...</h5>
-      <button onclick="screenUpdate('campaign', 'section-campaign')" id="campaign">Campaign</button>
+      <button onclick="screenUpdate('campaign', 'section-campaign')" id="campaign" class="special-button">Campaign</button>
       <!--<br>
       <br>
       <button onclick="screenUpdate('learningsets', 'section-learningsets')" id="learningsets">Learning Sets</button>-->
@@ -488,7 +488,7 @@ let selectedShard = ""
       if (location == -1) return console.error("Error: no shard selected");
       if (!menuResult.summoning[0][shard]) return window.alert("You do not have any of this type of shard.")
       selectedShard = shard
-      document.getElementById("summonmodal-content").innerHTML = `<h3>Open ${shard[0].toUpperCase()}${shard.slice(1)} Shards</h3>Amount: <input type="number" id="summonAmount" min=1 max=${menuResult.summoning[0][shard]}>/${menuResult.summoning[0][shard]}<br><br><button onclick="newSummon('${selectedShard}', document.getElementById('summonAmount').value)">Summon</button>`
+      document.getElementById("summonmodal-content").innerHTML = `<h3>Open ${shard[0].toUpperCase()}${shard.slice(1)} Shards</h3>Amount: <input type="number" id="summonAmount" min=1 max=${menuResult.summoning[0][shard]}>/${menuResult.summoning[0][shard]}<br><br><button onclick="newSummon('${selectedShard}', document.getElementById('summonAmount').value)" class="special-button mini-button">Summon</button>`
 document.getElementById("summonDisplay").style.display = "block";
     }
 

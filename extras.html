@@ -50,5 +50,12 @@
         document.getElementById("helpMenu").style.display = "none";
       }
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const openHelp = urlParams.get("help")
+    if (openHelp) {
+      document.getElementById("helpMenu").style.display = "block"
+      helpMenu(0)
+    }
   </script>
 </html>
