@@ -758,9 +758,14 @@ app.get("/campaign/:stage/:level", async (req, res) => {
         res.status(400).send({gameStart: false, error: "You already have an active game."})
       } else {
     const data = new campaignInstance(user.id, info.stage, info.level, realHeroes)
-        let gameEnemies = campaignLevels[info.stage][info.level].enemies
-        data.enemies.forEach(enemy => {
-          gameEnemies[gameEnemies.findIndex(gameenemy => gameenemy.id === enemy.id)].stats = enemy.stats
+        //bugfix to prevent "undefined" enemy names
+        let gameEnemies = data.enemies.map((enemy, index) => {
+          return {
+            id: enemy.id,
+            name: enemy.name,
+            stats: enemy.stats,
+            difficulty: campaignLevels[info.stage][info.level].enemies[index].difficulty
+          }
         })
         let gameHeroes = []
         for (let i = 0; i < realHeroes.length; i++) {
