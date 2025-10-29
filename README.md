@@ -1,6 +1,7 @@
 # Verdant Shift
 ### Welcome!
 Verdant Shift is a turn-based RPG game designed to educate users about environmental issues in an engaging way. A full explanation is available [here](https://youtu.be/oC7Y9b6A9ZE).
+Please note that this video may contain old menu layouts and designs.
 
 ## Changelog
 Nothing to report just yet.
