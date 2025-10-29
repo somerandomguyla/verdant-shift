@@ -6,6 +6,9 @@ Please note that this video may contain old menu layouts and designs.
 ## Changelog
 Nothing to report just yet.
 
+## Suggestions or Feedback?
+Fill out the [Verdant Shift Survey](https://forms.gle/9gE14mTVcrLVf85Y9).
+
 ## Need Help?
 Open an issue report right here on GitHub.
 
